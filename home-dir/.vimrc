@@ -57,7 +57,6 @@ Plugin 'Shougo/neocomplete.vim'
 Plugin 'scrooloose/syntastic'
 " PEP-8 support
 Plugin 'nvie/vim-flake8'
-Plugin 'dearrrfish/vim-applescript'
 " Python auto complete. Insure latest vim with brew
 " install --with-override-system-vi
 " --with-lua
@@ -78,8 +77,12 @@ Plugin 'darfink/vim-plist'
 
 " Plist formatting
 Plugin 'Townk/vim-autoclose'
+
+" TOML
 Plugin 'cespare/vim-toml'
 
+"log highlighting
+Plugin 'vim-log-highlighting'
 
 " Auto close parens and other things
 
