@@ -1,0 +1,40 @@
+// Selection color - added by captam3rica
+atom-text-editor::shadow .selection .region {
+    background-color: #EA4760;
+}
+
+// To style other content in the text editor's shadow DOM, use the ::shadow expression
+atom-text-editor::shadow .cursor {
+  border-color: #EA4760;
+}
+
+// Minimap cursor color style
+.minimap .cursor-line {
+    background: #EA4760;
+}
+
+// add or import these into your Atom styles.less
+
+/******************  VIM MODE STATUS BAR ****************************************/
+
+// green
+@normal-bg: rgb(105, 238, 103);
+// blue
+@insert-bg: rgb(7, 193, 242);
+// yellowish
+@visual-bg: rgb(255, 206, 98);
+
+
+// change the current cursor-line background color
+// based on vim mode
+atom-text-editor.is-focused.editor {
+  .cursor-line {
+    // background: rgba(64, 64, 37, 5);
+    background: fadeout(@normal-bg, 80%);
+  }
+  &.insert-mode {
+    .cursor-line {
+      background: fadeout(@insert-bg, 90%);
+    }
+  }
+}

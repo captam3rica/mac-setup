@@ -1,0 +1,112 @@
+{
+  "_from": "https://www.atom.io/api/packages/git-diff-plus/versions/0.4.2/tarball",
+  "_id": "git-diff-plus@0.4.2",
+  "_inBundle": false,
+  "_integrity": "sha512-Qjtqbp+61tZYfWUDWy9unRgIu8betPlWCibJ9vsDJ/DD/VYPr+6cS/ubyIVu58qhi6Sqq+8VlL2ngfIngKsABQ==",
+  "_location": "/git-diff-plus",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "remote",
+    "raw": "https://www.atom.io/api/packages/git-diff-plus/versions/0.4.2/tarball",
+    "rawSpec": "https://www.atom.io/api/packages/git-diff-plus/versions/0.4.2/tarball",
+    "saveSpec": "https://www.atom.io/api/packages/git-diff-plus/versions/0.4.2/tarball",
+    "fetchSpec": "https://www.atom.io/api/packages/git-diff-plus/versions/0.4.2/tarball"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://www.atom.io/api/packages/git-diff-plus/versions/0.4.2/tarball",
+  "_shasum": "a973ff556eb73cbeea4ff9bed92e87b7fb2739a2",
+  "_spec": "https://www.atom.io/api/packages/git-diff-plus/versions/0.4.2/tarball",
+  "_where": "/private/var/folders/v4/dww8f0l94ldbv0w961l8tk1h0000gp/T/apm-install-dir-202082-73846-163jlqb.adb2h",
+  "author": {
+    "name": "Originally developed by GitHub Inc. and later modified by Shuhei Kadowaki"
+  },
+  "bugs": {
+    "url": "https://github.com/aviatesk/atom-git-diff-plus/issues"
+  },
+  "bundleDependencies": false,
+  "configSchema": {
+    "showDiffsInStatusBar": {
+      "type": "boolean",
+      "default": true,
+      "description": "If true, shows diffs also in Status Bar",
+      "order": 1
+    },
+    "showIconsInEditorGutter": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows colored icons for added (`+`), modified (`·`) and removed (`-`) lines in the editor's gutter, instead of colored markers (`|`).",
+      "order": 2
+    },
+    "wrapAroundOnMoveToDiff": {
+      "type": "boolean",
+      "default": true,
+      "description": "Wraps around to the first/last diff in the file when moving to next/previous diff.",
+      "order": 3
+    }
+  },
+  "consumedServices": {
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "consumeStatusBar"
+      }
+    }
+  },
+  "dependencies": {
+    "atom-select-list": "^0.7.0",
+    "fs-plus": "^3.0.0",
+    "temp": "^0.9.0"
+  },
+  "deprecated": false,
+  "description": "alternative git-diff",
+  "devDependencies": {
+    "babel-eslint": "^10.0.2",
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-config-standard": "^14.0.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "husky": "^4.0.0",
+    "lint-staged": "^10.0.0",
+    "prettier": "^1.18.2"
+  },
+  "engines": {
+    "atom": ">=1.37.0 <2.0.0"
+  },
+  "homepage": "https://github.com/aviatesk/atom-git-diff-plus#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "keywords": [
+    "git",
+    "diff",
+    "plus",
+    "project",
+    "status bar"
+  ],
+  "license": "MIT",
+  "lint-staged": {
+    "{lib,spec}/**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "main": "./lib/main",
+  "name": "git-diff-plus",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aviatesk/atom-git-diff-plus.git"
+  },
+  "scripts": {
+    "eslint": "eslint --fix \"./{lib,spec}/**/*.js\"",
+    "prettier": "prettier --write \"./lib/**/*.js\" \"./spec/**/*.js\""
+  },
+  "version": "0.4.2"
+}

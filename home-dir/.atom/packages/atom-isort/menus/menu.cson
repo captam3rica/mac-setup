@@ -1,0 +1,20 @@
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      {
+        'label': 'atom-isort'
+        'submenu': [
+          {
+            'label': 'Sort Python Imports'
+            'command': 'atom-isort:sort imports'
+          }
+          {
+            'label': 'Check Python Imports'
+            'command': 'atom-isort:check imports'
+          }
+        ]
+      }
+    ]
+  }
+]
