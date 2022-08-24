@@ -5,13 +5,13 @@
 #
 #   Initial config script for setting preferences
 #
-#   Make sure that Xcode command line tools are installed.
-#
-#   Todo
+#       - Make sure that Xcode command line tools are installed.
 #
 #       - Setup the python environment
 #           - pyenv
 #           - pyenv-virtualenv
+#
+#   Todo
 #
 #       - Encorporate apps and tools that need to be downloaded from github (git)
 #           - Dracula
@@ -27,14 +27,14 @@
 #           - Recoverit - https://recoverit.wondershare.net/buy/recoverit-data-recovery.html?gclid=EAIaIQobChMI75vtppzs7AIVt_bjBx1ndg3qEAAYASAAEgJoJPD_BwE
 #           - StatusBuddy - https://statusbuddy.app
 
-VERSION="0.5.0"
+VERSION="0.7.0"
 
 #######################################################################################
 ################################ VARIABLES ############################################
 #######################################################################################
 
 # Set the version of python that we want pyenv to install
-PYTHON_VERSION="3.8.1"
+PYTHON_VERSION="3.10.2"
 
 # Define this scripts current working directory
 SCRIPT_DIR=$(/usr/bin/dirname "$0")
@@ -44,6 +44,10 @@ HERE="$(/usr/bin/dirname $0)"
 
 # Script name
 SCRIPT_NAME="$(/usr/bin/basename $0)"
+
+# Logging files
+LOG_FILE="$SCRIPT_NAME""_log-$(date +"%Y-%m-%d").log"
+LOG_PATH="$HERE/$LOG_FILE"
 
 # Application installation array for Homebrew
 
@@ -60,6 +64,7 @@ HOMEBREW_APPS=(
     bitwarden
     bitwarden-cli
     blockblock
+    beautysh
     checkbashisms
     chromium
     daisydisk
@@ -157,26 +162,7 @@ rosetta_2_check() {
     fi
 }
 
-#######################################################################################
-################################ MAIN LOGIC ###########################################
-#######################################################################################
-
-main() {
-    # Do main logic
-
-    logging "info" ""
-    logging "info" "Starting initial Mac setup script"
-    logging "info" ""
-    logging "info" "Script Version: $VERSION"
-    logging "info" ""
-
-    # Are we on Apple Silicon
-    rosetta_2_check
-
-    ####################################################################################
-    # INSTALL XCODE COMMAND LINE TOOLS
-    ####################################################################################
-
+xcode_cmd_tools() {
     logging "info" "Installing xcode CLI tools ..."
     xcode-select --install
 
@@ -191,21 +177,22 @@ main() {
         # Grab the PID again
         pid=$(/usr/bin/pgrep "Install Command Line Developer Tools")
     done
+}
 
-    ####################################################################################
-    # CONFIGURE HOMEBREW - HTTPS://BREW.SH
-    ####################################################################################
-
+install_homebrew() {
     logging "info" "Downloading and installing Homebrew ..."
     # Download and install
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-
+    # Install Homebrew | removes all interactive prompts
+    /bin/bash -c "$(/usr/bin/curl -fsSL \
+        https://raw.githubusercontent.com/Homebrew/install/master/install.sh |
+        sed "s/abort \"Don't run this as root\!\"/\
+        echo \"WARNING: Running as root...\"/" |
+        sed 's/  wait_for_user/  :/')" 2>&1 | /usr/bin/tee "$LOG_PATH"
+    logging "info" "Waiting 30 seconds ..."
     /bin/sleep 30
+}
 
-    ####################################################################################
-    # FINDER
-    ####################################################################################
-
+finder_config() {
     logging "info" "Configuring Finder settings"
 
     # Use list view in all Finder windows by default
@@ -224,11 +211,9 @@ main() {
         General -bool true \
         OpenWith -bool true \
         Privileges -bool true
+}
 
-    ####################################################################################
-    # KEYBOARD & MOUSE SETTINGS
-    ####################################################################################
-
+keyboard_config() {
     logging "info" "Configuring keyboard settings"
 
     # Enable key repeat
@@ -243,10 +228,38 @@ main() {
 
     # Enable Trackpad Expose
     /usr/bin/defaults write com.apple.dock mcx-expose-disabled -bool false
+}
 
-    ####################################################################################
-    # DOCK & DASHBOARD
-    ####################################################################################
+#######################################################################################
+################################ MAIN LOGIC ###########################################
+#######################################################################################
+
+main() {
+    # Do main logic
+
+    logging "info" ""
+    logging "info" "Starting initial Mac setup script"
+    logging "info" ""
+    logging "info" "Script Version: $VERSION"
+    logging "info" ""
+
+    # Are we on Apple Silicon
+    # rosetta_2_check
+
+    # INSTALL XCODE COMMAND LINE TOOLS
+    xcode_cmd_tools
+
+    # CONFIGURE HOMEBREW - HTTPS://BREW.SH
+    install_homebrew
+
+    # Force boot verbose mode
+    nvram boot-args="-v"
+
+    # FINDER
+    finder_config
+
+    # KEYBOARD & MOUSE SETTINGS
+    keyboard_config
 
     ####################################################################################
     # TERMINAL
@@ -305,52 +318,50 @@ main() {
     logging "info" "Creating .zshrc config ..."
 
     /bin/echo 'echo "
-     ██████╗ █████╗ ██████╗ ████████╗ █████╗ ███╗   ███╗██████╗ ██████╗ ██╗ ██████╗ █████╗
-    ██╔════╝██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗████╗ ████║╚════██╗██╔══██╗██║██╔════╝██╔══██╗
-    ██║     ███████║██████╔╝   ██║   ███████║██╔████╔██║ █████╔╝██████╔╝██║██║     ███████║
-    ██║     ██╔══██║██╔═══╝    ██║   ██╔══██║██║╚██╔╝██║ ╚═══██╗██╔══██╗██║██║     ██╔══██║
-    ╚██████╗██║  ██║██║        ██║   ██║  ██║██║ ╚═╝ ██║██████╔╝██║  ██║██║╚██████╗██║  ██║
-     ╚═════╝╚═╝  ╚═╝╚═╝        ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝╚═╝  ╚═
-    "
+ ██████╗ █████╗ ██████╗ ████████╗ █████╗ ███╗   ███╗██████╗ ██████╗ ██╗ ██████╗ █████╗
+██╔════╝██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗████╗ ████║╚════██╗██╔══██╗██║██╔════╝██╔══██╗
+██║     ███████║██████╔╝   ██║   ███████║██╔████╔██║ █████╔╝██████╔╝██║██║     ███████║
+██║     ██╔══██║██╔═══╝    ██║   ██╔══██║██║╚██╔╝██║ ╚═══██╗██╔══██╗██║██║     ██╔══██║
+╚██████╗██║  ██║██║        ██║   ██║  ██║██║ ╚═╝ ██║██████╔╝██║  ██║██║╚██████╗██║  ██║
+ ╚═════╝╚═╝  ╚═╝╚═╝        ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝╚═╝  ╚═
+"
 
-    echo ""
-    echo "Be strong and of great courage,
-    be not afraid or dismayed for the Lord
-    your God is wich you wherever you go.
-     - Joshua 1:9"
+echo ""
+echo "Be strong and of great courage,
+be not afraid or dismayed for the Lord
+your God is wich you wherever you go.
+ - Joshua 1:9"
 
-    echo ""
-    date
-    uptime
-    echo ""
-    who
-    echo ""
+echo ""
+date
+uptime
+echo ""
+who
+echo ""
 
-    alias ls="ls -G  -F"
-    alias ll="ls -la"
-    alias grep="grep --color"
-    alias bitwarden="bw"
-    alias gotoicloud="cd /Users/captam3rica/Library/Mobile\ Documents/com~apple~CloudDocs"
+alias ls="ls -G  -F"
+alias ll="ls -la"
+alias grep="grep --color"
+alias bitwarden="bw"
+alias gotoicloud="cd /Users/captam3rica/Library/Mobile\ Documents/com~apple~CloudDocs"
 
-    export PROMPT="%m%#: "
-    export EDITOR="/usr/bin/vim"
-    export HISTFILESIZE=10
-    export HISTSIZE=10
-    export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
-    export HISTIGNORE="&:clear:ls:cd:[bf]g:exit:[ t\]*"
-    export EMACS="*term*"
+export PROMPT="%m%#: "
+export EDITOR="/usr/bin/vim"
+export HISTFILESIZE=10
+export HISTSIZE=10
+export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
+export HISTIGNORE="&:clear:ls:cd:[bf]g:exit:[ t\]*"
+export EMACS="*term*"
 
-    bindkey -e
+bindkey -e
 
-    autoload -U compinit && compinit
+autoload -U compinit && compinit
 
-    # pyenv stuff
-    if command -v pyenv 1>/dev/null 2>&1; then
-    	eval "$(pyenv init -)"
-    fi
+# pyenv stuff
+eval "$(/usr/local/bin/pyenv init --path)"
 
-    # pyenv-virtualenv
-    eval "$(pyenv virtualenv-init -)"
+# pyenv-virtualenv
+eval "$(/usr/local/bin/pyenv virtualenv-init -)"
     ' >~/.zshrc
 
     # Reset the current Terminal session to pickup the new settings
@@ -371,11 +382,20 @@ main() {
     logging "info" "Resetting current Terminal session ..."
     source ~/.zshrc
 
-    logging "info" "Installing python modules ..."
-    pip install requests toml black isort pathlib pylint xlrd
-
     logging "info" "Upgrading pip ..."
-    pip install --upgrade pip
+    python -m pip install --upgrade pip
+
+    logging "info" "Installing python dependency modules ..."
+
+    python -m pip install black
+    python -m pip install flake8
+    python -m pip install ggshield
+    python -m pip install isort
+    python -m pip install pandas
+    python -m pip install pathlib
+    python -m pip install pre-commit
+    python -m pip install requests
+    python -m pip install toml
 
     ####################################################################################
     # CLEANUP
