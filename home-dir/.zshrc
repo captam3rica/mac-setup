@@ -133,7 +133,7 @@ alias gitba="git branch -lav"
 alias gitb="git branch --show-current"
 
 export PATH="/usr/local/sbin:$PATH"
-export PROMPT="%m%#: "
+# export PROMPT="%m%#: "
 export EDITOR="/usr/bin/vim"
 export HISTFILESIZE=10
 export HISTSIZE=10
