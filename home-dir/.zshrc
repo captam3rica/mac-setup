@@ -151,11 +151,12 @@ autoload -U compinit && compinit
 source $(dirname $(gem which colorls))/tab_complete.sh
 
 # pyenv stuff
-# if command -v pyenv 1>/dev/null 2>&1; then
-#    eval "$(pyenv init -)"
-# fi
-eval "$(pyenv init --path)"
-
-
-# pyenv-virtualenv
-eval "$(pyenv virtualenv-init -)"
+if [[ -f /usr/local/bin/pyenv ]]; then
+  eval "$(/usr/local/bin/pyenv init --path)"
+  # pyenv-virtualenv
+  eval "$(/usr/local/bin/pyenv virtualenv-init -)"
+else
+  eval "$(/opt/homebrew/bin/pyenv init --path)"
+  # pyenv-virtualenv
+  eval "$(/opt/homebrew/bin/pyenv virtualenv-init -)"
+fi
