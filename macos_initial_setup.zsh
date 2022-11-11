@@ -27,14 +27,14 @@
 #           - Recoverit - https://recoverit.wondershare.net/buy/recoverit-data-recovery.html?gclid=EAIaIQobChMI75vtppzs7AIVt_bjBx1ndg3qEAAYASAAEgJoJPD_BwE
 #           - StatusBuddy - https://statusbuddy.app
 
-VERSION="0.7.0"
+VERSION="0.7.1"
 
 #######################################################################################
 ################################ VARIABLES ############################################
 #######################################################################################
 
 # Set the version of python that we want pyenv to install
-PYTHON_VERSION="3.10.2"
+PYTHON_VERSION="3.10.7"
 
 # Define this scripts current working directory
 SCRIPT_DIR=$(/usr/bin/dirname "$0")
@@ -55,14 +55,10 @@ declare -a HOMEBREW_APPS
 declare -a GIT_REPOS
 
 HOMEBREW_APPS=(
-    audacious
     agenda
     atom
     autopkgr
-    autodmg
     bettertouchtool
-    bitwarden
-    bitwarden-cli
     blockblock
     beautysh
     checkbashisms
@@ -74,11 +70,12 @@ HOMEBREW_APPS=(
     grammarly
     hancock
     hermes
+    insomnia
+    jq
     kextviewr
     knockknock
     lulu
     macdown
-    murus
     omnigraffle
     openssl
     oversight
@@ -97,20 +94,12 @@ HOMEBREW_APPS=(
     shellcheck
     shfmt
     speedtest-cli
-    spotify
     sqlite3
     suspicious-package
-    synergy
-    taskexplorer
-    teamviewer
-    timing
     wireshark
-    vfuse
     vim
-    vmware-fusion
     xz
     zlib
-    zoom
 )
 
 GIT_REPOS=(
@@ -126,70 +115,144 @@ GIT_REPOS=(
 #######################################################################################
 
 logging() {
-    # Pe-pend text and print to standard output
-    # Takes in a log level and log string.
-    # Example: logging "INFO" "Something describing what happened."
-
+    # Logging function
+    #
+    # Takes in a log level and log string and logs to /Library/Logs/$script_name if a LOG_PATH
+    # constant variable is not found. Will set the log level to INFO if the first built-in $1 is
+    # passed as an empty string.
+    #
+    # Args:
+    #   $1: Log level. Examples "info", "warning", "debug", "error"
+    #   $2: Log statement in string format
+    #
+    # Examples:
+    #   logging "" "Your info log statement here ..."
+    #   logging "warning" "Your warning log statement here ..."
     log_level=$(printf "$1" | /usr/bin/tr '[:lower:]' '[:upper:]')
     log_statement="$2"
-    LOG_FILE="$SCRIPT_NAME""_log-$(date +"%Y-%m-%d").log"
-    LOG_PATH="$HERE/$LOG_FILE"
+    script_name="$(/usr/bin/basename $0)"
+    prefix=$(/bin/date +"[%b %d, %Y %Z %T $log_level]:")
 
-    if [ -z "$log_level" ]; then
+    # see if a LOG_PATH has been set
+    if [[ -z "${LOG_PATH}" ]]; then
+        LOG_PATH="/Library/Logs/${script_name}"
+    fi
+
+    if [[ -z $log_level   ]]; then
         # If the first builtin is an empty string set it to log level INFO
         log_level="INFO"
     fi
 
-    if [ -z "$log_statement" ]; then
+    if [[ -z $log_statement   ]]; then
         # The statement was piped to the log function from another command.
         log_statement=""
     fi
 
-    DATE=$(date +"[%b %d, %Y %Z %T $log_level]:")
-    printf "%s %s\n" "$DATE" "$log_statement" >>"$LOG_PATH"
+    # echo the same log statement to stdout
+    /bin/echo "$prefix $log_statement"
+
+    # send log statement to log file
+    printf "%s %s\n" "$prefix" "$log_statement" >>"$LOG_PATH"
+
 }
 
-rosetta_2_check() {
-    # Check for Apple Silicon Macs and install rosetta2 if necessary
-    # credit: Graham Gilbert
-    arch="$(/usr/bin/arch)"
+rosetta2_check() {
+    # Check for and install Rosetta2 if needed.
+    # $1: processor_brand
+    # Determine the processor brand
+    if [[ "$1" == *"Apple"* ]]; then
+        logging "info" "Apple Processor is present..."
 
-    if [ "$arch" == "arm64" ]; then
-        logging "info" "Installing rosetta2 for Intel compatibility on Apple Silicon ..."
-        /usr/sbin/softwareupdate --install-rosetta --agree-to-license
+        # Check if the Rosetta service is running
+        check_rosetta_status=$(/usr/bin/pgrep oahd)
+
+        # Rosetta Folder location
+        # Condition to check to see if the Rosetta folder exists. This check was added because
+        # the Rosetta2 service is already running in macOS versions 11.5 and greater without
+        # Rosseta2 actually being installed.
+        rosetta_folder="/Library/Apple/usr/share/rosetta"
+
+        if [[ -n $check_rosetta_status ]] && [[ -e $rosetta_folder ]]; then
+            logging "info" "Rosetta2 is installed... no action needed"
+
+        else
+            logging "info" "Rosetta is not installed... installing now"
+
+            # Installs Rosetta
+            /usr/sbin/softwareupdate --install-rosetta --agree-to-license | /usr/bin/tee -a "${LOG_PATH}"
+
+            # Checks the outcome of the Rosetta install
+            if [[ $? -ne 0 ]]; then
+                logging "error" "Rosetta2 install failed..."
+                exit 1
+            fi
+        fi
+
     else
-        logging "info" "This is an Intel-based Mac ..."
+        logging "info" "Apple Processor is not present... Rosetta2 not needed"
     fi
 }
 
-xcode_cmd_tools() {
-    logging "info" "Installing xcode CLI tools ..."
-    xcode-select --install
+xcode_cli_tools() {
+    # Check for and install Xcode CLI tools
+    # Run command to check for an Xcode cli tools path
+    /usr/bin/xcrun --version >/dev/null 2>&1
 
-    # Get the PID for the Install Command Line Developer Tools.app process
-    local pid=$(/usr/bin/pgrep "Install Command Line Developer Tools")
+    # check to see if there is a valide CLI tools path
+    if [[ $? -eq 0 ]]; then
+        /bin/echo "Valid Xcode path found. No need to install Xcode CLI tools ..."
 
-    while [[ "$pid" ]]; do
-        logging "info" "Waiting for Install Command Line Developer Tools($pid) to complete ..."
+    else
+        /bin/echo "Valid Xcode CLI tools path was not found ..."
 
-        /bin/sleep 5
+        # finded out when the OS was built
+        build_year=$(/usr/bin/sw_vers -buildVersion | cut -c 1,2)
 
-        # Grab the PID again
-        pid=$(/usr/bin/pgrep "Install Command Line Developer Tools")
-    done
+        # Trick softwareupdate into giving use everything it knows about xcode cli tools
+        xclt_tmp="/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress"
+
+        # create the file above
+        /bin/echo "Creating $xclt_tmp ..."
+        /usr/bin/touch "${xclt_tmp}"
+
+        if [[ "${build_year}" -ge 19 ]]; then
+            # for Catalina or newer
+            /bin/echo "Getting the latest Xcode CLI tools available ..."
+            cmd_line_tools=$(/usr/sbin/softwareupdate -l | /usr/bin/awk '/\*\ Label: Command Line Tools/ { $1=$1;print }' | /usr/bin/sed 's/^[[ \t]]*//;s/[[ \t]]*$//;s/*//' | /usr/bin/cut -c 9- | /usr/bin/grep -vi beta | /usr/bin/sort -n)
+
+        else
+            # For Mojave or older
+            /bin/echo "Getting the latest Xcode CLI tools available ..."
+            cmd_line_tools=$(/usr/sbin/softwareupdate -l | /usr/bin/awk '/\*\ Command Line Tools/ { $1=$1;print }' | /usr/bin/grep -i "macOS" | /ussr/bin/sed 's/^[[ \t]]*//;s/[[ \t]]*$//;s/*//' | /usr/bin/cut -c 2-)
+
+        fi
+
+        /bin/echo "Available Xcode CLI tools found: "
+        /bin/echo "$cmd_line_tools"
+
+        if (($(/usr/bin/grep -c . <<<"${cmd_line_tools}") > 1)); then
+            cmd_line_tools_output="${cmd_line_tools}"
+            cmd_line_tools=$(printf "${cmd_line_tools_output}" | /usr/bin/tail -1)
+
+            /bin/echo "Latest Xcode CLI tools found: $cmd_line_tools"
+        fi
+
+        # run softwareupdate to install xcode cli tools
+        /bin/echo "Installing the latest Xcode CLI tools ..."
+
+        # Sending this output to the local homebrew_install.log as well as stdout
+        /usr/sbin/softwareupdate -i "${cmd_line_tools}" --verbose
+
+        # cleanup the temp file
+        /bin/echo "Cleaning up $xclt_tmp ..."
+        /bin/rm "${xclt_tmp}"
+
+    fi
 }
 
 install_homebrew() {
-    logging "info" "Downloading and installing Homebrew ..."
-    # Download and install
-    # Install Homebrew | removes all interactive prompts
-    /bin/bash -c "$(/usr/bin/curl -fsSL \
-        https://raw.githubusercontent.com/Homebrew/install/master/install.sh |
-        sed "s/abort \"Don't run this as root\!\"/\
-        echo \"WARNING: Running as root...\"/" |
-        sed 's/  wait_for_user/  :/')" 2>&1 | /usr/bin/tee "$LOG_PATH"
-    logging "info" "Waiting 30 seconds ..."
-    /bin/sleep 30
+    logging "info" "use the kandji script ..."
+    logging "info" "https://github.com/kandji-inc/support/blob/main/Scripts/InstallHomebrew.zsh"
 }
 
 finder_config() {
@@ -244,13 +307,14 @@ main() {
     logging "info" ""
 
     # Are we on Apple Silicon
-    # rosetta_2_check
+    rosetta2_check
 
-    # INSTALL XCODE COMMAND LINE TOOLS
-    xcode_cmd_tools
+    # call xcode_cli_tools
+    echo "Checking to see if xcode cli tools install status ..."
+    xcode_cli_tools
 
     # CONFIGURE HOMEBREW - HTTPS://BREW.SH
-    install_homebrew
+    # install_homebrew
 
     # Force boot verbose mode
     nvram boot-args="-v"
@@ -301,13 +365,13 @@ main() {
 
         logging "info" "Installing $app from Homebrew ..."
         # Install all the home brew apps
-        /usr/local/bin/brew install "$app"
+        /opt/homebrew/bin/brew install "$app"
 
         if [[ $? -ne 0 ]]; then
             # Try installing with cask because app not available from brew directly
             logging "info" "Unable to install $app from brew install ..."
             logging "info" "Trying brew cask install $app ..."
-            /usr/local/bin/brew cask install "$app"
+            /opt/homebrew/bin/brew install --cask "$app"
         fi
     done
 
@@ -358,10 +422,18 @@ bindkey -e
 autoload -U compinit && compinit
 
 # pyenv stuff
-eval "$(/usr/local/bin/pyenv init --path)"
+if [[ -f /usr/local/bin/pyenv ]]; then
+  eval "$(/usr/local/bin/pyenv init --path)"
+  # pyenv-virtualenv
+  eval "$(/usr/local/bin/pyenv virtualenv-init -)"
+else
+  eval "$(/opt/homebrew/bin/pyenv init --path)"
+  # pyenv-virtualenv
+  eval "$(/opt/homebrew/bin/pyenv virtualenv-init -)"
+fi
 
-# pyenv-virtualenv
-eval "$(/usr/local/bin/pyenv virtualenv-init -)"
+
+
     ' >~/.zshrc
 
     # Reset the current Terminal session to pickup the new settings
@@ -396,6 +468,12 @@ eval "$(/usr/local/bin/pyenv virtualenv-init -)"
     python -m pip install pre-commit
     python -m pip install requests
     python -m pip install toml
+
+    ####################################################################################
+    # ohmyzsh
+    ####################################################################################
+
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
     ####################################################################################
     # CLEANUP
