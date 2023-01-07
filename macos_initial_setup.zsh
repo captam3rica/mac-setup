@@ -391,19 +391,19 @@ done
 logging "info" "Creating .zshrc config ..."
 
 /bin/echo 'echo "
-██████╗ █████╗ ██████╗ ████████╗ █████╗ ███╗   ███╗██████╗ ██████╗ ██╗ ██████╗ █████╗
-██╔════╝██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗████╗ ████║╚════██╗██╔══██╗██║██╔════╝██╔══██╗
-██║     ███████║██████╔╝   ██║   ███████║██╔████╔██║ █████╔╝██████╔╝██║██║     ███████║
-██║     ██╔══██║██╔═══╝    ██║   ██╔══██║██║╚██╔╝██║ ╚═══██╗██╔══██╗██║██║     ██╔══██║
-╚██████╗██║  ██║██║        ██║   ██║  ██║██║ ╚═╝ ██║██████╔╝██║  ██║██║╚██████╗██║  ██║
-╚═════╝╚═╝  ╚═╝╚═╝        ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝╚═╝  ╚═
+  ██████╗ █████╗ ██████╗ ████████╗ █████╗ ███╗   ███╗██████╗ ██████╗ ██╗ ██████╗ █████╗
+ ██╔════╝██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗████╗ ████║╚════██╗██╔══██╗██║██╔════╝██╔══██╗
+ ██║     ███████║██████╔╝   ██║   ███████║██╔████╔██║ █████╔╝██████╔╝██║██║     ███████║
+ ██║     ██╔══██║██╔═══╝    ██║   ██╔══██║██║╚██╔╝██║ ╚═══██╗██╔══██╗██║██║     ██╔══██║
+ ╚██████╗██║  ██║██║        ██║   ██║  ██║██║ ╚═╝ ██║██████╔╝██║  ██║██║╚██████╗██║  ██║
+  ╚═════╝╚═╝  ╚═╝╚═╝        ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝╚═╝  ╚═
 "
 
 echo ""
 echo "Be strong and of great courage,
 be not afraid or dismayed for the Lord
 your God is wich you wherever you go.
-- Joshua 1:9"
+  - Joshua 1:9"
 
 echo ""
 date
@@ -417,8 +417,15 @@ alias ll="ls -la"
 alias grep="grep --color"
 alias bitwarden="bw"
 alias gotoicloud="cd /Users/captam3rica/Library/Mobile\ Documents/com~apple~CloudDocs"
+alias gotoipsw="cd ~/Library/Group\ Containers/K36BKF7T3D.group.com.apple.configurator/Library/Caches/Firmware/"
+alias gotokandjigit="cd ~/Google\ Drive/My\ Drive/kandji-git-repos"
+alias gitba="git branch -lav"
+alias gitb="git branch --show-currento"
+alias ipswmacos="open https://ipsw.me/MacBookPro18,2"
 
-export PROMPT="%m%#: "
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+# export PROMPT="%m%#: "
 export EDITOR="/usr/bin/vim"
 export HISTFILESIZE=10
 export HISTSIZE=10
@@ -426,9 +433,14 @@ export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 export HISTIGNORE="&:clear:ls:cd:[bf]g:exit:[ t\]*"
 export EMACS="*term*"
 
+export GITGUARDIAN_API_KEY=""
+
 bindkey -e
 
 autoload -U compinit && compinit
+
+# colorls settings
+source $(dirname $(gem which colorls))/tab_complete.sh
 
 # pyenv stuff
 if [[ -f /usr/local/bin/pyenv ]]; then
@@ -440,9 +452,6 @@ else
     # pyenv-virtualenv
     eval "$(/opt/homebrew/bin/pyenv virtualenv-init -)"
 fi
-
-
-
 ' >~/.zshrc
 
 # Reset the current Terminal session to pickup the new settings
