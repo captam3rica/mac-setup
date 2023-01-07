@@ -61,7 +61,7 @@ Plugin 'nvie/vim-flake8'
 " install --with-override-system-vi
 " --with-lua
 " If stuck: vim -u NONE
-Plugin 'Valloric/YouCompleteMe' 
+" Plugin 'Valloric/YouCompleteMe' 
 
 " Highlight class names and methods brightly
 Plugin 'WolfgangMehner/bash-support'
@@ -192,5 +192,4 @@ let g:syntastic_echo_current_error = 1
 
 " YCM Settings
 let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g	:YcmCompleter GoToDefinitionElseDeclaration<CR>
-
+map <leader>g   :YcmCompleter GoToDefinitionElseDeclaration<CR>

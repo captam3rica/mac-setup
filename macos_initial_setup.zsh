@@ -24,22 +24,16 @@
 #
 #       - Other apps that are direct download
 #           - AirBuddy -
-#           - Recoverit - https://recoverit.wondershare.net/buy/recoverit-data-recovery.html?gclid=EAIaIQobChMI75vtppzs7AIVt_bjBx1ndg3qEAAYASAAEgJoJPD_BwE
-#           - StatusBuddy - https://statusbuddy.app
-
-VERSION="0.7.1"
-
-#######################################################################################
+#           - Recoverit - https://recoverit.wondershare.net/buy/recoverit-data-recovery.html?gcl#################################################################
 ################################ VARIABLES ############################################
 #######################################################################################
 
 # Set the version of python that we want pyenv to install
-PYTHON_VERSION="3.10.7"
+PYTHON_VERSION="3.11.1"
+
+VERSION="1.0.0"
 
 # Define this scripts current working directory
-SCRIPT_DIR=$(/usr/bin/dirname "$0")
-
-# The present working directory
 HERE="$(/usr/bin/dirname $0)"
 
 # Script name
@@ -56,7 +50,8 @@ declare -a GIT_REPOS
 
 HOMEBREW_APPS=(
     agenda
-    atom
+    anka-virtualization
+    # atom
     autopkgr
     bettertouchtool
     blockblock
@@ -66,16 +61,21 @@ HOMEBREW_APPS=(
     daisydisk
     do-not-disturb
     firefox
+    firefox-developer-edition
+    gitify
     gnupg
     grammarly
     hancock
     hermes
+    hyper
     insomnia
     jq
     kextviewr
     knockknock
     lulu
     macdown
+    mist
+    npm
     omnigraffle
     openssl
     oversight
@@ -89,6 +89,7 @@ HOMEBREW_APPS=(
     pyenv-pip-migrate
     pyenv-virtualenv
     pylint
+    rectangle
     readline
     signal
     shellcheck
@@ -96,8 +97,10 @@ HOMEBREW_APPS=(
     speedtest-cli
     sqlite3
     suspicious-package
+    topnotch
     wireshark
     vim
+    visual-studio-code
     xz
     zlib
 )
@@ -138,12 +141,12 @@ logging() {
         LOG_PATH="/Library/Logs/${script_name}"
     fi
 
-    if [[ -z $log_level   ]]; then
+    if [[ -z $log_level ]]; then
         # If the first builtin is an empty string set it to log level INFO
         log_level="INFO"
     fi
 
-    if [[ -z $log_statement   ]]; then
+    if [[ -z $log_statement ]]; then
         # The statement was piped to the log function from another command.
         log_statement=""
     fi
@@ -253,6 +256,7 @@ xcode_cli_tools() {
 install_homebrew() {
     logging "info" "use the kandji script ..."
     logging "info" "https://github.com/kandji-inc/support/blob/main/Scripts/InstallHomebrew.zsh"
+    zsh ./homebrew.zsh
 }
 
 finder_config() {
@@ -297,104 +301,109 @@ keyboard_config() {
 ################################ MAIN LOGIC ###########################################
 #######################################################################################
 
-main() {
-    # Do main logic
+# Do main logic
 
-    logging "info" ""
-    logging "info" "Starting initial Mac setup script"
-    logging "info" ""
-    logging "info" "Script Version: $VERSION"
-    logging "info" ""
+logging "info" ""
+logging "info" "Starting initial Mac setup script"
+logging "info" ""
+logging "info" "Script Version: $VERSION"
+logging "info" ""
 
-    # Are we on Apple Silicon
-    rosetta2_check
+# Get the processor brand information
+processor_brand="$(/usr/sbin/sysctl -n machdep.cpu.brand_string)"
 
-    # call xcode_cli_tools
-    echo "Checking to see if xcode cli tools install status ..."
-    xcode_cli_tools
+# Are we on Apple Silicon
+rosetta2_check "$processor_brand"
 
-    # CONFIGURE HOMEBREW - HTTPS://BREW.SH
-    # install_homebrew
+# call xcode_cli_tools
+echo "Checking to see if xcode cli tools install status ..."
+xcode_cli_tools
 
-    # Force boot verbose mode
-    nvram boot-args="-v"
+# CONFIGURE HOMEBREW - HTTPS://BREW.SH
+install_homebrew
 
-    # FINDER
-    finder_config
+# Force boot verbose mode
+nvram boot-args="-v"
 
-    # KEYBOARD & MOUSE SETTINGS
-    keyboard_config
+# FINDER
+finder_config
 
-    ####################################################################################
-    # TERMINAL
-    ####################################################################################
+# KEYBOARD & MOUSE SETTINGS
+keyboard_config
 
-    # # Use a modified version of the Pro theme by default in Terminal.app
-    # # /usr/bin/open "${HOME}/Downloads/Dracula.terminal"
-    # # /bin/sleep 1 # Wait a bit to make sure the theme is loaded
-    # # /usr/bin/defaults write com.apple.terminal "Default Window Settings" -string "Dracula"
-    # # /usr/bin/defaults write com.apple.terminal "Startup Window Settings" -string "Dracula"
-    #
-    ####################################################################################
-    # SCREENSHOT CONFIG
-    ####################################################################################
+####################################################################################
+# TERMINAL
+####################################################################################
 
-    logging "info" "Configuring screenshot settings"
+# # Use a modified version of the Pro theme by default in Terminal.app
+# # /usr/bin/open "${HOME}/Downloads/Dracula.terminal"
+# # /bin/sleep 1 # Wait a bit to make sure the theme is loaded
+# # /usr/bin/defaults write com.apple.terminal "Default Window Settings" -string "Dracula"
+# # /usr/bin/defaults write com.apple.terminal "Startup Window Settings" -string "Dracula"
+#
+####################################################################################
+# SCREENSHOT CONFIG
+####################################################################################
 
-    # Remove shadow effect on screenshots
-    /usr/bin/defaults write com.apple.screencapture disable-shadow -bool YES && killall SystemUIServer
+logging "info" "Configuring screenshot settings"
 
-    ####################################################################################
-    # PRINTER CONFIG
-    ####################################################################################
+# Remove shadow effect on screenshots
+/usr/bin/defaults write com.apple.screencapture disable-shadow -bool YES && killall SystemUIServer
 
-    logging "info" "Configuring printer settings"
+####################################################################################
+# PRINTER CONFIG
+####################################################################################
 
-    # Display advanced printer options by default
-    /usr/bin/defaults write -g PMPrintingExpandedStateForPrint -bool YES
+logging "info" "Configuring printer settings"
 
-    ####################################################################################
-    # APPLICATION INSTALLATION
-    ####################################################################################
+# Display advanced printer options by default
+/usr/bin/defaults write -g PMPrintingExpandedStateForPrint -bool YES
 
-    logging "info" "Starting app installation from Homebrew ..."
+####################################################################################
+# APPLICATION INSTALLATION
+####################################################################################
 
-    for ((i = 1; i <= ${#HOMEBREW_APPS[@]}; i++)); do
+logging "info" "Starting app installation from Homebrew ..."
 
-        local app="${HOMEBREW_APPS[$i]}"
+# for some other app installers
+brew tap homebrew/cask-versions
 
-        logging "info" "Installing $app from Homebrew ..."
-        # Install all the home brew apps
-        /opt/homebrew/bin/brew install "$app"
+for ((i = 1; i <= ${#HOMEBREW_APPS[@]}; i++)); do
 
-        if [[ $? -ne 0 ]]; then
-            # Try installing with cask because app not available from brew directly
-            logging "info" "Unable to install $app from brew install ..."
-            logging "info" "Trying brew cask install $app ..."
-            /opt/homebrew/bin/brew install --cask "$app"
-        fi
-    done
+    app="${HOMEBREW_APPS[$i]}"
 
-    ####################################################################################
-    # SETUP .ZSHRC
-    ####################################################################################
+    logging "info" "Installing $app from Homebrew ..."
+    # Install all the home brew apps
+    /opt/homebrew/bin/brew install "$app"
 
-    logging "info" "Creating .zshrc config ..."
+    if [[ $? -ne 0 ]]; then
+        # Try installing with cask because app not available from brew directly
+        logging "info" "Unable to install $app from brew install ..."
+        logging "info" "Trying brew cask install $app ..."
+        /opt/homebrew/bin/brew install --cask "$app"
+    fi
+done
 
-    /bin/echo 'echo "
- ██████╗ █████╗ ██████╗ ████████╗ █████╗ ███╗   ███╗██████╗ ██████╗ ██╗ ██████╗ █████╗
+####################################################################################
+# SETUP .ZSHRC
+####################################################################################
+
+logging "info" "Creating .zshrc config ..."
+
+/bin/echo 'echo "
+██████╗ █████╗ ██████╗ ████████╗ █████╗ ███╗   ███╗██████╗ ██████╗ ██╗ ██████╗ █████╗
 ██╔════╝██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗████╗ ████║╚════██╗██╔══██╗██║██╔════╝██╔══██╗
 ██║     ███████║██████╔╝   ██║   ███████║██╔████╔██║ █████╔╝██████╔╝██║██║     ███████║
 ██║     ██╔══██║██╔═══╝    ██║   ██╔══██║██║╚██╔╝██║ ╚═══██╗██╔══██╗██║██║     ██╔══██║
 ╚██████╗██║  ██║██║        ██║   ██║  ██║██║ ╚═╝ ██║██████╔╝██║  ██║██║╚██████╗██║  ██║
- ╚═════╝╚═╝  ╚═╝╚═╝        ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝╚═╝  ╚═
+╚═════╝╚═╝  ╚═╝╚═╝        ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝╚═╝  ╚═
 "
 
 echo ""
 echo "Be strong and of great courage,
 be not afraid or dismayed for the Lord
 your God is wich you wherever you go.
- - Joshua 1:9"
+- Joshua 1:9"
 
 echo ""
 date
@@ -423,68 +432,68 @@ autoload -U compinit && compinit
 
 # pyenv stuff
 if [[ -f /usr/local/bin/pyenv ]]; then
-  eval "$(/usr/local/bin/pyenv init --path)"
-  # pyenv-virtualenv
-  eval "$(/usr/local/bin/pyenv virtualenv-init -)"
+    eval "$(/usr/local/bin/pyenv init --path)"
+    # pyenv-virtualenv
+    eval "$(/usr/local/bin/pyenv virtualenv-init -)"
 else
-  eval "$(/opt/homebrew/bin/pyenv init --path)"
-  # pyenv-virtualenv
-  eval "$(/opt/homebrew/bin/pyenv virtualenv-init -)"
+    eval "$(/opt/homebrew/bin/pyenv init --path)"
+    # pyenv-virtualenv
+    eval "$(/opt/homebrew/bin/pyenv virtualenv-init -)"
 fi
 
 
 
-    ' >~/.zshrc
+' >~/.zshrc
 
-    # Reset the current Terminal session to pickup the new settings
-    source ~/.zshrc
+# Reset the current Terminal session to pickup the new settings
+source ~/.zshrc
 
-    ####################################################################################
-    # SETUP PYTHON3 EVIRONMENT
-    ####################################################################################
+####################################################################################
+# SETUP PYTHON3 EVIRONMENT
+####################################################################################
 
-    logging "info" "Setting up the python 3 environment ..."
+logging "info" "Setting up the python 3 environment ..."
 
-    logging "info" "Using pyenv to install python version $PYTHON_VERSION"
-    pyenv install "$PYTHON_VERSION"
+logging "info" "Using pyenv to install python version $PYTHON_VERSION"
+pyenv install "$PYTHON_VERSION"
 
-    logging "info" "Setting global python version to $PYTHON_VERSION"
-    pyenv global "$PYTHON_VERSION"
+logging "info" "Setting global python version to $PYTHON_VERSION"
+pyenv global "$PYTHON_VERSION"
 
-    logging "info" "Resetting current Terminal session ..."
-    source ~/.zshrc
+logging "info" "Resetting current Terminal session ..."
+source ~/.zshrc
 
-    logging "info" "Upgrading pip ..."
-    python -m pip install --upgrade pip
+logging "info" "Upgrading pip ..."
+python -m pip install --upgrade pip
 
-    logging "info" "Installing python dependency modules ..."
+logging "info" "Installing python dependency modules ..."
 
-    python -m pip install black
-    python -m pip install flake8
-    python -m pip install ggshield
-    python -m pip install isort
-    python -m pip install pandas
-    python -m pip install pathlib
-    python -m pip install pre-commit
-    python -m pip install requests
-    python -m pip install toml
+python -m pip install black
+python -m pip install flake8
+python -m pip install ggshield
+python -m pip install isort
+python -m pip install pandas
+python -m pip install pathlib
+python -m pip install pre-commit
+python -m pip install requests
+python -m pip install toml
+python -m pip install beautysh
+python -m pip install pre-commit-config-shellcheck
+python -m pip install shellcheck-py
+python -m pip install scriv
 
-    ####################################################################################
-    # ohmyzsh
-    ####################################################################################
+####################################################################################
+# ohmyzsh
+####################################################################################
 
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-    ####################################################################################
-    # CLEANUP
-    ####################################################################################
+####################################################################################
+# CLEANUP
+####################################################################################
 
-    logging "info" ""
-    logging "info" "Initial Mac setup complete ..."
-    logging "info" ""
-}
-
-# Call main
-main
+logging "info" ""
+logging "info" "Initial Mac setup complete ..."
+logging "info" ""
 
 exit 0

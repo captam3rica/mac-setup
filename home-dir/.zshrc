@@ -1,400 +1,119 @@
-#!/bin/zsh
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="dracula-pro"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+zstyle ':omz:update' mode auto # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
 #
-#   https://gist.github.com/khebbie/b54eeaf851c69cb1829e
-#
-#   Initial config script for setting preferences
-#
-#       - Make sure that Xcode command line tools are installed.
-#
-#       - Setup the python environment
-#           - pyenv
-#           - pyenv-virtualenv
-#
-#   Todo
-#
-#       - Encorporate apps and tools that need to be downloaded from github (git)
-#           - Dracula
-#               - macOS Terminal
-#               - Atom themes
-#               - MacDown theme
-#               - Vim
-#           - Launchd Package Creator - https://github.com/ryangball/launchd-package-creator/releases
-#           - Vundle (vim package manager) - git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-#
-#       - Other apps that are direct download
-#           - AirBuddy -
-#           - Recoverit - https://recoverit.wondershare.net/buy/recoverit-data-recovery.html?gclid=EAIaIQobChMI75vtppzs7AIVt_bjBx1ndg3qEAAYASAAEgJoJPD_BwE
-#           - StatusBuddy - https://statusbuddy.app
-
-VERSION="0.7.1"
-
-#######################################################################################
-################################ VARIABLES ############################################
-#######################################################################################
-
-# Set the version of python that we want pyenv to install
-PYTHON_VERSION="3.10.7"
-
-# Define this scripts current working directory
-SCRIPT_DIR=$(/usr/bin/dirname "$0")
-
-# The present working directory
-HERE="$(/usr/bin/dirname $0)"
-
-# Script name
-SCRIPT_NAME="$(/usr/bin/basename $0)"
-
-# Logging files
-LOG_FILE="$SCRIPT_NAME""_log-$(date +"%Y-%m-%d").log"
-LOG_PATH="$HERE/$LOG_FILE"
-
-# Application installation array for Homebrew
-
-declare -a HOMEBREW_APPS
-declare -a GIT_REPOS
-
-HOMEBREW_APPS=(
-    agenda
-    atom
-    autopkgr
-    bettertouchtool
-    blockblock
-    beautysh
-    checkbashisms
-    chromium
-    daisydisk
-    do-not-disturb
-    firefox
-    gnupg
-    grammarly
-    hancock
-    hermes
-    insomnia
-    jq
-    kextviewr
-    knockknock
-    lulu
-    macdown
-    omnigraffle
-    openssl
-    oversight
-    packages
-    pdf-expert
-    pocket-casts
-    postman
-    pppc-utility
-    private-internet-access
-    pyenv
-    pyenv-pip-migrate
-    pyenv-virtualenv
-    pylint
-    readline
-    signal
-    shellcheck
-    shfmt
-    speedtest-cli
-    sqlite3
-    suspicious-package
-    wireshark
-    vim
-    xz
-    zlib
-)
-
-GIT_REPOS=(
-    https://github.com/dracula/macdown.git      # ~/Library/Application\ Support/MacDown/Themes
-    https://github.com/dracula/terminal-app.git # Dracula Terminal.app theme
-    https://github.com/munki/munki-pkg.git
-    https://github.com/ryangball/launchd-package-creator/releases
-    https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-)
-
-#######################################################################################
-################################ FUNCTIONS ############################################
-#######################################################################################
-
-logging() {
-    # Logging function
-    #
-    # Takes in a log level and log string and logs to /Library/Logs/$script_name if a LOG_PATH
-    # constant variable is not found. Will set the log level to INFO if the first built-in $1 is
-    # passed as an empty string.
-    #
-    # Args:
-    #   $1: Log level. Examples "info", "warning", "debug", "error"
-    #   $2: Log statement in string format
-    #
-    # Examples:
-    #   logging "" "Your info log statement here ..."
-    #   logging "warning" "Your warning log statement here ..."
-    log_level=$(printf "$1" | /usr/bin/tr '[:lower:]' '[:upper:]')
-    log_statement="$2"
-    script_name="$(/usr/bin/basename $0)"
-    prefix=$(/bin/date +"[%b %d, %Y %Z %T $log_level]:")
-
-    # see if a LOG_PATH has been set
-    if [[ -z "${LOG_PATH}" ]]; then
-        LOG_PATH="/Library/Logs/${script_name}"
-    fi
-
-    if [[ -z $log_level   ]]; then
-        # If the first builtin is an empty string set it to log level INFO
-        log_level="INFO"
-    fi
-
-    if [[ -z $log_statement   ]]; then
-        # The statement was piped to the log function from another command.
-        log_statement=""
-    fi
-
-    # echo the same log statement to stdout
-    /bin/echo "$prefix $log_statement"
-
-    # send log statement to log file
-    printf "%s %s\n" "$prefix" "$log_statement" >>"$LOG_PATH"
-
-}
-
-rosetta2_check() {
-    # Check for and install Rosetta2 if needed.
-    # $1: processor_brand
-    # Determine the processor brand
-    if [[ "$1" == *"Apple"* ]]; then
-        logging "info" "Apple Processor is present..."
-
-        # Check if the Rosetta service is running
-        check_rosetta_status=$(/usr/bin/pgrep oahd)
-
-        # Rosetta Folder location
-        # Condition to check to see if the Rosetta folder exists. This check was added because
-        # the Rosetta2 service is already running in macOS versions 11.5 and greater without
-        # Rosseta2 actually being installed.
-        rosetta_folder="/Library/Apple/usr/share/rosetta"
-
-        if [[ -n $check_rosetta_status ]] && [[ -e $rosetta_folder ]]; then
-            logging "info" "Rosetta2 is installed... no action needed"
-
-        else
-            logging "info" "Rosetta is not installed... installing now"
-
-            # Installs Rosetta
-            /usr/sbin/softwareupdate --install-rosetta --agree-to-license | /usr/bin/tee -a "${LOG_PATH}"
-
-            # Checks the outcome of the Rosetta install
-            if [[ $? -ne 0 ]]; then
-                logging "error" "Rosetta2 install failed..."
-                exit 1
-            fi
-        fi
-
-    else
-        logging "info" "Apple Processor is not present... Rosetta2 not needed"
-    fi
-}
-
-xcode_cli_tools() {
-    # Check for and install Xcode CLI tools
-    # Run command to check for an Xcode cli tools path
-    /usr/bin/xcrun --version >/dev/null 2>&1
-
-    # check to see if there is a valide CLI tools path
-    if [[ $? -eq 0 ]]; then
-        /bin/echo "Valid Xcode path found. No need to install Xcode CLI tools ..."
-
-    else
-        /bin/echo "Valid Xcode CLI tools path was not found ..."
-
-        # finded out when the OS was built
-        build_year=$(/usr/bin/sw_vers -buildVersion | cut -c 1,2)
-
-        # Trick softwareupdate into giving use everything it knows about xcode cli tools
-        xclt_tmp="/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress"
-
-        # create the file above
-        /bin/echo "Creating $xclt_tmp ..."
-        /usr/bin/touch "${xclt_tmp}"
-
-        if [[ "${build_year}" -ge 19 ]]; then
-            # for Catalina or newer
-            /bin/echo "Getting the latest Xcode CLI tools available ..."
-            cmd_line_tools=$(/usr/sbin/softwareupdate -l | /usr/bin/awk '/\*\ Label: Command Line Tools/ { $1=$1;print }' | /usr/bin/sed 's/^[[ \t]]*//;s/[[ \t]]*$//;s/*//' | /usr/bin/cut -c 9- | /usr/bin/grep -vi beta | /usr/bin/sort -n)
-
-        else
-            # For Mojave or older
-            /bin/echo "Getting the latest Xcode CLI tools available ..."
-            cmd_line_tools=$(/usr/sbin/softwareupdate -l | /usr/bin/awk '/\*\ Command Line Tools/ { $1=$1;print }' | /usr/bin/grep -i "macOS" | /ussr/bin/sed 's/^[[ \t]]*//;s/[[ \t]]*$//;s/*//' | /usr/bin/cut -c 2-)
-
-        fi
-
-        /bin/echo "Available Xcode CLI tools found: "
-        /bin/echo "$cmd_line_tools"
-
-        if (($(/usr/bin/grep -c . <<<"${cmd_line_tools}") > 1)); then
-            cmd_line_tools_output="${cmd_line_tools}"
-            cmd_line_tools=$(printf "${cmd_line_tools_output}" | /usr/bin/tail -1)
-
-            /bin/echo "Latest Xcode CLI tools found: $cmd_line_tools"
-        fi
-
-        # run softwareupdate to install xcode cli tools
-        /bin/echo "Installing the latest Xcode CLI tools ..."
-
-        # Sending this output to the local homebrew_install.log as well as stdout
-        /usr/sbin/softwareupdate -i "${cmd_line_tools}" --verbose
-
-        # cleanup the temp file
-        /bin/echo "Cleaning up $xclt_tmp ..."
-        /bin/rm "${xclt_tmp}"
-
-    fi
-}
-
-install_homebrew() {
-    logging "info" "use the kandji script ..."
-    logging "info" "https://github.com/kandji-inc/support/blob/main/Scripts/InstallHomebrew.zsh"
-}
-
-finder_config() {
-    logging "info" "Configuring Finder settings"
-
-    # Use list view in all Finder windows by default
-    # Four-letter codes for the other view modes: `icnv`, `clmv`, `Flwv`
-    /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
-
-    # Disable the warning before emptying the Trash
-    /usr/bin/defaults write com.apple.finder WarnOnEmptyTrash -bool false
-
-    # Empty Trash securely by default
-    /usr/bin/defaults write com.apple.finder EmptyTrashSecurely -bool false
-
-    # Expand the following File Info panes:
-    # “General”, “Open with”, and “Sharing & Permissions”
-    /usr/bin/defaults write com.apple.finder FXInfoPanesExpanded -dict \
-        General -bool true \
-        OpenWith -bool true \
-        Privileges -bool true
-}
-
-keyboard_config() {
-    logging "info" "Configuring keyboard settings"
-
-    # Enable key repeat
-    /usr/bin/defaults write -g ApplePressAndHoldEnabled -bool false
-
-    # Set KeyRepeat to fast
-    # it is possible to set lower numbers of 0 or 1.
-    /usr/bin/defaults write NSGlobalDomain KeyRepeat -int 2
-
-    # Disable Force Touch
-    /usr/bin/defaults write com.apple.trackpad forceClick -bool false
-
-    # Enable Trackpad Expose
-    /usr/bin/defaults write com.apple.dock mcx-expose-disabled -bool false
-}
-
-#######################################################################################
-################################ MAIN LOGIC ###########################################
-#######################################################################################
-
-main() {
-    # Do main logic
-
-    logging "info" ""
-    logging "info" "Starting initial Mac setup script"
-    logging "info" ""
-    logging "info" "Script Version: $VERSION"
-    logging "info" ""
-
-    # Are we on Apple Silicon
-    rosetta2_check
-
-    # call xcode_cli_tools
-    echo "Checking to see if xcode cli tools install status ..."
-    xcode_cli_tools
-
-    # CONFIGURE HOMEBREW - HTTPS://BREW.SH
-    # install_homebrew
-
-    # Force boot verbose mode
-    nvram boot-args="-v"
-
-    # FINDER
-    finder_config
-
-    # KEYBOARD & MOUSE SETTINGS
-    keyboard_config
-
-    ####################################################################################
-    # TERMINAL
-    ####################################################################################
-
-    # # Use a modified version of the Pro theme by default in Terminal.app
-    # # /usr/bin/open "${HOME}/Downloads/Dracula.terminal"
-    # # /bin/sleep 1 # Wait a bit to make sure the theme is loaded
-    # # /usr/bin/defaults write com.apple.terminal "Default Window Settings" -string "Dracula"
-    # # /usr/bin/defaults write com.apple.terminal "Startup Window Settings" -string "Dracula"
-    #
-    ####################################################################################
-    # SCREENSHOT CONFIG
-    ####################################################################################
-
-    logging "info" "Configuring screenshot settings"
-
-    # Remove shadow effect on screenshots
-    /usr/bin/defaults write com.apple.screencapture disable-shadow -bool YES && killall SystemUIServer
-
-    ####################################################################################
-    # PRINTER CONFIG
-    ####################################################################################
-
-    logging "info" "Configuring printer settings"
-
-    # Display advanced printer options by default
-    /usr/bin/defaults write -g PMPrintingExpandedStateForPrint -bool YES
-
-    ####################################################################################
-    # APPLICATION INSTALLATION
-    ####################################################################################
-
-    logging "info" "Starting app installation from Homebrew ..."
-
-    for ((i = 1; i <= ${#HOMEBREW_APPS[@]}; i++)); do
-
-        local app="${HOMEBREW_APPS[$i]}"
-
-        logging "info" "Installing $app from Homebrew ..."
-        # Install all the home brew apps
-        /opt/homebrew/bin/brew install "$app"
-
-        if [[ $? -ne 0 ]]; then
-            # Try installing with cask because app not available from brew directly
-            logging "info" "Unable to install $app from brew install ..."
-            logging "info" "Trying brew cask install $app ..."
-            /opt/homebrew/bin/brew install --cask "$app"
-        fi
-    done
-
-    ####################################################################################
-    # SETUP .ZSHRC
-    ####################################################################################
-
-    logging "info" "Creating .zshrc config ..."
-
-    /bin/echo 'echo "
- ██████╗ █████╗ ██████╗ ████████╗ █████╗ ███╗   ███╗██████╗ ██████╗ ██╗ ██████╗ █████╗
-██╔════╝██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗████╗ ████║╚════██╗██╔══██╗██║██╔════╝██╔══██╗
-██║     ███████║██████╔╝   ██║   ███████║██╔████╔██║ █████╔╝██████╔╝██║██║     ███████║
-██║     ██╔══██║██╔═══╝    ██║   ██╔══██║██║╚██╔╝██║ ╚═══██╗██╔══██╗██║██║     ██╔══██║
-╚██████╗██║  ██║██║        ██║   ██║  ██║██║ ╚═╝ ██║██████╔╝██║  ██║██║╚██████╗██║  ██║
- ╚═════╝╚═╝  ╚═╝╚═╝        ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝╚═╝  ╚═
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+echo "
+  ██████╗ █████╗ ██████╗ ████████╗ █████╗ ███╗   ███╗██████╗ ██████╗ ██╗ ██████╗ █████╗
+ ██╔════╝██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗████╗ ████║╚════██╗██╔══██╗██║██╔════╝██╔══██╗
+ ██║     ███████║██████╔╝   ██║   ███████║██╔████╔██║ █████╔╝██████╔╝██║██║     ███████║
+ ██║     ██╔══██║██╔═══╝    ██║   ██╔══██║██║╚██╔╝██║ ╚═══██╗██╔══██╗██║██║     ██╔══██║
+ ╚██████╗██║  ██║██║        ██║   ██║  ██║██║ ╚═╝ ██║██████╔╝██║  ██║██║╚██████╗██║  ██║
+  ╚═════╝╚═╝  ╚═╝╚═╝        ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝╚═╝  ╚═
 "
 
 echo ""
 echo "Be strong and of great courage,
 be not afraid or dismayed for the Lord
 your God is wich you wherever you go.
- - Joshua 1:9"
+  - Joshua 1:9"
 
 echo ""
 date
@@ -408,6 +127,11 @@ alias ll="ls -la"
 alias grep="grep --color"
 alias bitwarden="bw"
 alias gotoicloud="cd /Users/captam3rica/Library/Mobile\ Documents/com~apple~CloudDocs"
+alias gotoipsw="cd ~/Library/Group\ Containers/K36BKF7T3D.group.com.apple.configurator/Library/Caches/Firmware/"
+alias gotokandjigit="cd ~/Google\ Drive/My\ Drive/kandji-git-repos"
+alias gitba="git branch -lav"
+alias gitb="git branch --show-currento"
+alias ipswmacos="open https://ipsw.me/MacBookPro18,2"
 
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
@@ -419,74 +143,22 @@ export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 export HISTIGNORE="&:clear:ls:cd:[bf]g:exit:[ t\]*"
 export EMACS="*term*"
 
+export GITGUARDIAN_API_KEY=""
+
 bindkey -e
 
 autoload -U compinit && compinit
 
+# colorls settings
+source $(dirname $(gem which colorls))/tab_complete.sh
+
 # pyenv stuff
 if [[ -f /usr/local/bin/pyenv ]]; then
-  eval "$(/usr/local/bin/pyenv init --path)"
-  # pyenv-virtualenv
-  eval "$(/usr/local/bin/pyenv virtualenv-init -)"
+    eval "$(/usr/local/bin/pyenv init --path)"
+    # pyenv-virtualenv
+    eval "$(/usr/local/bin/pyenv virtualenv-init -)"
 else
-  eval "$(/opt/homebrew/bin/pyenv init --path)"
-  # pyenv-virtualenv
-  eval "$(/opt/homebrew/bin/pyenv virtualenv-init -)"
+    eval "$(/opt/homebrew/bin/pyenv init --path)"
+    # pyenv-virtualenv
+    eval "$(/opt/homebrew/bin/pyenv virtualenv-init -)"
 fi
-
-
-
-    ' >~/.zshrc
-
-    # Reset the current Terminal session to pickup the new settings
-    source ~/.zshrc
-
-    ####################################################################################
-    # SETUP PYTHON3 EVIRONMENT
-    ####################################################################################
-
-    logging "info" "Setting up the python 3 environment ..."
-
-    logging "info" "Using pyenv to install python version $PYTHON_VERSION"
-    pyenv install "$PYTHON_VERSION"
-
-    logging "info" "Setting global python version to $PYTHON_VERSION"
-    pyenv global "$PYTHON_VERSION"
-
-    logging "info" "Resetting current Terminal session ..."
-    source ~/.zshrc
-
-    logging "info" "Upgrading pip ..."
-    python -m pip install --upgrade pip
-
-    logging "info" "Installing python dependency modules ..."
-
-    python -m pip install black
-    python -m pip install flake8
-    python -m pip install ggshield
-    python -m pip install isort
-    python -m pip install pandas
-    python -m pip install pathlib
-    python -m pip install pre-commit
-    python -m pip install requests
-    python -m pip install toml
-
-    ####################################################################################
-    # ohmyzsh
-    ####################################################################################
-
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-    ####################################################################################
-    # CLEANUP
-    ####################################################################################
-
-    logging "info" ""
-    logging "info" "Initial Mac setup complete ..."
-    logging "info" ""
-}
-
-# Call main
-main
-
-exit 0
