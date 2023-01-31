@@ -1,0 +1,21 @@
+[user]
+	name = captam3rica
+	email = jmattwilson1@protonmail.com
+[color]
+	ui = auto
+	editor = /bin/vim
+[core]
+	editor = /usr/bin/vim
+	excludesfile = /Users/mwilson/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/mwilson/.stCommitMsg
+[credential]
+	helper = cache
+[colro]
+	ui = auto
