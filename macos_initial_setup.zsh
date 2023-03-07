@@ -34,14 +34,16 @@ PYTHON_VERSION="3.11.1"
 VERSION="1.0.0"
 
 # Define this scripts current working directory
-HERE="$(/usr/bin/dirname $0)"
+HERE="$(/usr/bin/dirname "$0")"
 
 # Script name
-SCRIPT_NAME="$(/usr/bin/basename $0)"
+SCRIPT_NAME="$(/usr/bin/basename "$0")"
 
 # Logging files
 LOG_FILE="$SCRIPT_NAME""_log-$(date +"%Y-%m-%d").log"
-LOG_PATH="/Users/captam3rica/Desktop/$LOG_FILE"
+LOG_PATH="/Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |
+    /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' |
+    /usr/bin/awk -F '@' '{print $1}')/Desktop/$LOG_FILE"
 
 # Application installation array for Homebrew
 
@@ -259,7 +261,7 @@ xcode_cli_tools() {
 install_homebrew() {
     logging "info" "use the kandji script ..."
     logging "info" "https://github.com/kandji-inc/support/blob/main/Scripts/InstallHomebrew.zsh"
-    zsh ./homebrew.zsh
+    zsh "$HERE/homebrew.zsh"
 }
 
 finder_config() {
@@ -375,7 +377,7 @@ logging "info" "Configuring printer settings"
 
 logging "info" "Starting app installation from Homebrew ..."
 
-if [[ "${processor_brand}" == *"Apple"* ]]; then
+if [[ "$processor_brand" == *"Apple"* ]]; then
     brew_bin="/opt/homebrew/bin/brew"
 else
     brew_bin="/usr/local/bin/brew"
@@ -387,9 +389,6 @@ brew tap homebrew/cask-versions
 for ((i = 1; i <= ${#HOMEBREW_APPS[@]}; i++)); do
 
     app="${HOMEBREW_APPS[$i]}"
-
-    echo $app
-    echo $brew_bin
 
     logging "info" "Installing $app from Homebrew..."
 
@@ -409,6 +408,7 @@ done
 ####################################################################################
 
 logging "info" "Creating .zshrc config ..."
+/bin/cp .zshrc "/Users/$current_user/.zshrc"
 
 ####################################################################################
 # SETUP PYTHON3 EVIRONMENT
