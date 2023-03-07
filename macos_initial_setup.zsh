@@ -24,14 +24,16 @@
 #
 #       - Other apps that are direct download
 #           - AirBuddy -
-#           - Recoverit - https://recoverit.wondershare.net/buy/recoverit-data-recovery.html?gcl#################################################################
-################################ VARIABLES ############################################
-#######################################################################################
+#           - Recoverit - https://recoverit.wondershare.net/buy/recoverit-data-recovery.html?gcl
+
+########################################################################################
+################################ VARIABLES #############################################
+########################################################################################
 
 # Set the version of python that we want pyenv to install
 PYTHON_VERSION="3.11.1"
 
-VERSION="1.0.0"
+VERSION="1.0.1"
 
 # Define this scripts current working directory
 HERE="$(/usr/bin/dirname "$0")"
@@ -53,7 +55,6 @@ declare -a GIT_REPOS
 HOMEBREW_APPS=(
     agenda
     anka-virtualization
-    # atom
     autopkgr
     bettertouchtool
     blockblock
@@ -61,18 +62,15 @@ HOMEBREW_APPS=(
     checkbashisms
     chromium
     daisydisk
-    do-not-disturb
     firefox
     firefox-developer-edition
     gitify
     gnupg
     grammarly
-    hancock
     hermes
     hyper
     insomnia
     jq
-    kextviewr
     knockknock
     lulu
     macdown
@@ -90,8 +88,6 @@ HOMEBREW_APPS=(
     pyenv
     pyenv-pip-migrate
     pyenv-virtualenv
-    pylint
-    rectangle
     readline
     ruby
     signal
@@ -108,14 +104,6 @@ HOMEBREW_APPS=(
     xz
     zlib
     font-3270-nerd-font
-)
-
-GIT_REPOS=(
-    https://github.com/dracula/macdown.git      # ~/Library/Application\ Support/MacDown/Themes
-    https://github.com/dracula/terminal-app.git # Dracula Terminal.app theme
-    https://github.com/munki/munki-pkg.git
-    https://github.com/ryangball/launchd-package-creator/releases
-    https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 )
 
 #######################################################################################
@@ -393,13 +381,13 @@ for ((i = 1; i <= ${#HOMEBREW_APPS[@]}; i++)); do
     logging "info" "Installing $app from Homebrew..."
 
     # Install all the home brew apps
-    $brew_bin install "$app"
+    /usr/bin/su - "$current_user" -c $brew_bin install "$app"
 
     if [[ $? -ne 0 ]]; then
         # Try installing with cask because app not available from brew directly
         logging "info" "Unable to install $app from brew install ..."
         logging "info" "Trying brew cask install $app ..."
-        "$brew_bin" install --cask "$app"
+        /usr/bin/su - "$current_user" -c "$brew_bin" install --cask "$app"
     fi
 done
 
@@ -408,7 +396,7 @@ done
 ####################################################################################
 
 logging "info" "Creating .zshrc config ..."
-/bin/cp .zshrc "/Users/$current_user/.zshrc"
+/usr/bin/su - "$current_user" -c /bin/cp .zshrc "/Users/$current_user/.zshrc"
 
 ####################################################################################
 # SETUP PYTHON3 EVIRONMENT
@@ -417,32 +405,31 @@ logging "info" "Creating .zshrc config ..."
 logging "info" "Setting up the python 3 environment ..."
 
 logging "info" "Using pyenv to install python version $PYTHON_VERSION"
-pyenv install "$PYTHON_VERSION"
+/usr/bin/su - "$current_user" -c pyenv install "$PYTHON_VERSION"
 
 logging "info" "Setting global python version to $PYTHON_VERSION"
-pyenv global "$PYTHON_VERSION"
+/usr/bin/su - "$current_user" -c pyenv global "$PYTHON_VERSION"
 
 logging "info" "Resetting current Terminal session after pyenv install..."
-/bin/zsh -l
+/usr/bin/su - "$current_user" -c /bin/zsh -l
 
 logging "info" "Upgrading pip ..."
-python -m pip install --upgrade pip
+/usr/bin/su - "$current_user" -c python -m pip install --upgrade pip
 
 logging "info" "Installing python dependency modules ..."
 
-python -m pip install black
-python -m pip install flake8
-python -m pip install ggshield
-python -m pip install isort
-python -m pip install pandas
-python -m pip install pathlib
-python -m pip install pre-commit
-python -m pip install requests
-python -m pip install toml
-python -m pip install beautysh
-python -m pip install pre-commit-config-shellcheck
-python -m pip install shellcheck-py
-python -m pip install scriv
+/usr/bin/su - "$current_user" -c python3 -m pip install black
+/usr/bin/su - "$current_user" -c python3 -m pip install flake8
+/usr/bin/su - "$current_user" -c python3 -m pip install ggshield
+/usr/bin/su - "$current_user" -c python3 -m pip install isort
+/usr/bin/su - "$current_user" -c python3 -m pip install pandas
+/usr/bin/su - "$current_user" -c python3 -m pip install pathlib
+/usr/bin/su - "$current_user" -c python3 -m pip install pre-commit
+/usr/bin/su - "$current_user" -c python3 -m pip install requests
+/usr/bin/su - "$current_user" -c python3 -m pip install toml
+/usr/bin/su - "$current_user" -c python3 -m pip install beautysh
+/usr/bin/su - "$current_user" -c python3 -m pip install shellcheck-py
+/usr/bin/su - "$current_user" -c python3 -m pip install scriv
 
 ####################################################################################
 # colorls
@@ -450,13 +437,13 @@ python -m pip install scriv
 
 /usr/bin/gem install colorls
 /bin/mkdir -p "/Users/${current_user}/.config/colorls"
-cp "dark_colors.yaml" "/Users/${current_user}/.config/colorls"
+/usr/bin/su - "$current_user" -c cp "$HERE/dark_colors.yaml" "/Users/${current_user}/.config/colorls"
 
 ####################################################################################
 # ohmyzsh
 ####################################################################################
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+/usr/bin/su - "$current_user" -c sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 ####################################################################################
 # CLEANUP
@@ -467,6 +454,6 @@ logging "info" "Initial Mac setup complete ..."
 logging "info" ""
 
 logging "info" "Resetting current Terminal session ..."
-/bin/zsh -l
+/usr/bin/su - "$current_user" -c /bin/zsh -l
 
 exit 0
