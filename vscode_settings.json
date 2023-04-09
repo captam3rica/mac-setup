@@ -4,14 +4,14 @@
   },
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true
   },
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
   },
   "atomKeymap.promptV3Features": true,
-  "autoDocstring.startOnNewLine": true,
-  "black-formatter.showNotifications": "always",
+"autoDocstring.startOnNewLine": true,
   "css.format.spaceAroundSelectorSeparator": true,
   "editor.comments.ignoreEmptyLines": false,
   "editor.fontFamily": "Fira Code, monospace",
@@ -26,18 +26,18 @@
   "editor.renderLineHighlight": "all",
   "editor.rulers": [88],
   "editor.wordWrap": "wordWrapColumn",
-  "editor.wordWrapColumn": 88,
+  "editor.wordWrapColumn": 98,
   "flake8.args": [
     "--ignore",
     "--max-line-length",
     "88",
     "E501,E402,F841,F401,E302,E305,E266,E133,W503"
-  ],
-  "flake8.showNotifications": "always",
+],
+"flake8.showNotifications": "always",
+"python.defaultInterpreterPath": "/Users/captam3rica/.pyenv/shims/python",
   "python.analysis.diagnosticSeverityOverrides": {},
   "python.analysis.extraPaths": [],
-  "python.autoComplete.extraPaths": [],
-  "python.defaultInterpreterPath": "/Users/captam3rica/.pyenv/versions/3.10.7/bin/python",
+"python.autoComplete.extraPaths": [],
   "python.formatting.provider": "black",
   "scm.diffDecorationsGutterPattern": {
     "modified": false
@@ -86,29 +86,43 @@
   "editor.fontSize": 11,
   "editor.suggest.insertMode": "replace",
   "editor.wordBasedSuggestionsMode": "allDocuments",
-  "syntax.highlightLanguages": [
-    "markdown",
-    "bash",
-    "zshell",
-    "c",
-    "cpp",
-    "python",
-    "typescript",
-    "typescriptreact",
-    "javascript",
-    "go",
-    "rust",
-    "php",
-    "ruby",
-    "shellscript",
-    "ocaml",
-    "lua"
-  ],
   "shellcheck.ignorePatterns": {
     "**/*.zsh": false
   },
-  "shellcheck.customArgs": ["--shell=bash"],
-  "python.linting.flake8Path": "/Users/captam3rica/.pyenv/shims/flake8",
-  "python.linting.flake8Enabled": true,
-  "python.linting.pylintEnabled": true
+  "shellcheck.customArgs": [
+    "--shell=bash",
+    "--external-sources",
+    "--severity=warning",
+    "--exclude=SC2046,SC2053,SC2068,SC2179,SC2181,SC2199,SC2207,SC2229,SC2296"
+],
+"python.linting.flake8Path": "",
+"python.linting.flake8Enabled": true,
+"black-formatter.showNotifications": "always",
+"settingsSync.ignoredSettings": [
+    "-python.formatting.blackPath",
+    "-flake8.showNotifications",
+    "-python.linting.flake8Path"
+],
+  "workbench.preferredDarkColorTheme": "Dracula Pro",
+  "workbench.preferredLightColorTheme": "Dracula Pro",
+  "githubIssues.queries": [
+    {},
+    {
+      "label": "My Issues",
+      "query": "default"
+    },
+    {
+      "label": "Created Issues",
+      "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+    },
+    {
+      "label": "Recent Issues",
+      "query": "state:open repo:${owner}/${repository} sort:updated-desc"
+    }
+  ],
+  "editor.fontVariations": false,
+  "python.formatting.blackPath": "",
+"shellformat.path": "/opt/homebrew/bin/shfmt",
+"isort.check": true,
+"python.analysis.completeFunctionParens": true
 }
