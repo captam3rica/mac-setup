@@ -1,195 +1,127 @@
-" Make sure to have Vundle installed from GitHub before starting any of the
-" configs below.
-" https://github.com/VundleVim/Vundle.vim#quick-start
-" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-
-set nocompatible              " be iMproved, required
-" let isVundleInstalled=1
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-" look here for more info: http://vimcasts.org/episodes/fugitive-vim---a-complement-to-command-line-git/
-" In vim type :help :Git to see man pages
-
-
-" ####################
-" ##    Plugins     ##
-" ####################
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-
-" For doing GitHub things
-" In vim type :help :Git to see man pages
-Plugin 'tpope/vim-fugitive'
-" Git diffs
-Plugin 'airblade/vim-gitgutter'
-" Move around windows quickly
-Plugin 't9md/vim-choosewin'
-" Vim status/tabline 
-Bundle "vim-airline/vim-airline"
-" Show the number of buffers in the command bar 
-Plugin 'bling/vim-bufferline'
-" Syntax Highlight Themes
-Plugin 'dracula/vim'
-" Auto completion from buffer cache
-Plugin 'Shougo/neocomplete.vim'
-
-" ################################
-" #         Syntax stuff         #
-" ################################
-" Syntax editing and linting
-Plugin 'scrooloose/syntastic'
-" PEP-8 support
-Plugin 'nvie/vim-flake8'
-" Python auto complete. Insure latest vim with brew
-" install --with-override-system-vi
-" --with-lua
-" If stuck: vim -u NONE
-" Plugin 'Valloric/YouCompleteMe' 
-
-" Highlight class names and methods brightly
-Plugin 'WolfgangMehner/bash-support'
-
-" Highlight class names and methods brightly
-Plugin 'vim-scripts/TagHighlight'      
-
-" Auto indent python code
-Plugin 'vim-scripts/indentpython.vim'   
-
-" MocOS Plist support
-Plugin 'darfink/vim-plist'
-
-" Plist formatting
-Plugin 'Townk/vim-autoclose'
-
-" TOML
-Plugin 'cespare/vim-toml'
-
-"log highlighting
-Plugin 'vim-log-highlighting'
-
-" Auto close parens and other things
-
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Avoid a name conflict with L9
-" Plugin 'user/L9', {'name': 'newL9'}
-
-" #################################################
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-
-" ##################################################
-
-" ######################## 
-" ##  General Settings  ##
-" ########################
-
-" Set indent length for PEP8 indentation
-au BufNewFile, BufRead *.py
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-    \ set textwidth=79
-    \ set expandtab
-    \ set autoindent
-    \ set fileformat=unix
-
-" Flag unwanted white space
-au BufRead, BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-
-" UTF-8 support
-set encoding=utf-8
-
-" Scroll offset
-set so=9999999
-
-" Insert space in normal mode
-nnoremap ss i<space><left>
-
-" Show line numbers
-set number
-
-" Enable CursorLine
-set cursorline
-highlight CursorLine ctermbg=Green ctermfg=Red
-
-" Ask about unsaved files upon quit
-set confirm
-
-" Show matching pair for [], {}, and ()
-set showmatch 
-
-" Spell check
-set spell
-set spelllang=en
-
-" Enable Syntax highlighting 
-syntax on
-color dracula
-colorscheme dracula
-set background=dark
-
-" enable all Python syntax highlighting features
-let python_highlight_all = 1
-
-" #######################
-" #  Plugin  Settings  ##
-" #######################
-
-" Must have plugin manager installed (ie - Vundle) and the dracula/vim package
-" installed.
-" See Plugin section above
-
-filetype plugin indent on    " required
-
-" Statusline plugin settings 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-" Formmat plist files in xml format. This is primarily for work with
-" preference files on macOS
-let g:plist_display_format = 'xml'
-
-" linter plugin config
-let g:syntastic_enable_r_lintr_checker = 1
-let g:syntastic_r_checkers = ['lintr']
-
-" Syntastic Settings
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_plist_checkers = ['plutil', 'xmllint']
-let g:syntastic_python_checkers = ['pylint'] 
-let g:syntastic_enable_signs = 1
-let g:syntastic_enable_highlighting = 1
-let g:syntastic_echo_current_error = 1
-
-" YCM Settings
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g   :YcmCompleter GoToDefinitionElseDeclaration<CR>
+{
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true
+  },
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "atomKeymap.promptV3Features": true,
+"autoDocstring.startOnNewLine": true,
+  "css.format.spaceAroundSelectorSeparator": true,
+  "editor.comments.ignoreEmptyLines": false,
+  "editor.fontFamily": "Fira Code, monospace",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.minimap.enabled": true,
+  "editor.minimap.maxColumn": 75,
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.showSlider": "always",
+  "editor.minimap.side": "left",
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.renderLineHighlight": "all",
+  "editor.rulers": [88],
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.wordWrapColumn": 98,
+  "flake8.args": [
+    "--max-line-length",
+    "88",
+    "--ignore=E266,E501,W503"
+  ],
+"flake8.showNotifications": "always",
+"python.defaultInterpreterPath": "/Users/captam3rica/.pyenv/shims/python",
+  "python.analysis.diagnosticSeverityOverrides": {},
+  "python.analysis.extraPaths": [],
+"python.autoComplete.extraPaths": [],
+  "python.formatting.provider": "black",
+  "scm.diffDecorationsGutterPattern": {
+    "modified": false
+  },
+  "scm.diffDecorationsGutterWidth": 4,
+  "security.workspace.trust.untrustedFiles": "open",
+  "workbench.activityBar.visible": false,
+  "workbench.colorCustomizations": {
+    "[Dracula Pro]": {
+      "editor.findMatchBackground": "#E22E4E",
+      "editor.findMatchBorder": "#ffff00",
+      "editor.findMatchHighlightBorder": "#b38ee6",
+      "editor.findMatchHighlightBackground": "#b38ee6",
+      "editor.selectionHighlightBackground": "#980077",
+      "editor.lineHighlightBackground": "#181818",
+      "editor.lineHighlightBorder": "#181818",
+      "editor.selectionBackground": "#980077",
+      "editor.selectionHighlightBorder": "#000000",
+      "editor.selectionForeground": "#E22E4E",
+      "editor.wordHighlightStrongBackground": "#980077",
+      "editor.wordHighlightBackground": "#980077",
+      "editorGutter.deletedBackground": "#E22E4E",
+      "editorGutter.modifiedBackground": "#96734c",
+      "gitDecoration.deletedResourceForeground": "#E22E4E",
+      "gitDecoration.modifiedResourceForeground": "#b38ee6",
+      "gitDecoration.stageModifiedResourceForeground": "#b38ee6",
+      "gitDecoration.untrackedResourceForeground": "#5be174",
+      "minimap.selectionHighlight": "#980077",
+      "minimapGutter.modifiedBackground": "#96734c",
+      "panel.border": "#1A1921",
+      "settings.modifiedItemIndicator": "#b38ee6",
+      "sideBar.background": "#1A1921",
+      "sideBar.foreground": "#656989",
+      "sideBarSectionHeader.background": "#1A1921",
+      "tab.activeBorder": "#1A1921",
+      "tab.activeBorderTop": "#5be174",
+      "tab.unfocusedActiveBorderTop": "#1A1921"
+    }
+  },
+  "workbench.colorTheme": "Dracula Pro",
+  "workbench.iconTheme": "atom-icons",
+  "gitlens.advanced.messages": {
+    "suppressLineUncommittedWarning": true
+  },
+  "explorer.confirmDelete": false,
+  "editor.fontSize": 11,
+  "editor.suggest.insertMode": "replace",
+  "editor.wordBasedSuggestionsMode": "allDocuments",
+  "shellcheck.ignorePatterns": {
+    "**/*.zsh": false
+  },
+  "shellcheck.customArgs": [
+    "--shell=bash",
+    "--external-sources",
+    "--severity=warning",
+    "--exclude=SC2046,SC2053,SC2068,SC2179,SC2181,SC2199,SC2207,SC2229,SC2296"
+],
+"python.linting.flake8Path": "",
+"python.linting.flake8Enabled": true,
+"black-formatter.showNotifications": "always",
+"settingsSync.ignoredSettings": [
+    "-python.formatting.blackPath",
+    "-flake8.showNotifications",
+    "-python.linting.flake8Path"
+],
+  "workbench.preferredDarkColorTheme": "Dracula Pro",
+  "workbench.preferredLightColorTheme": "Dracula Pro",
+  "githubIssues.queries": [
+    {},
+    {
+      "label": "My Issues",
+      "query": "default"
+    },
+    {
+      "label": "Created Issues",
+      "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+    },
+    {
+      "label": "Recent Issues",
+      "query": "state:open repo:${owner}/${repository} sort:updated-desc"
+    }
+  ],
+  "editor.fontVariations": false,
+  "python.formatting.blackPath": "",
+"shellformat.path": "/opt/homebrew/bin/shfmt",
+"isort.check": true,
+"python.analysis.completeFunctionParens": true
+}
