@@ -252,44 +252,6 @@ install_homebrew() {
     zsh "$HERE/homebrew.zsh"
 }
 
-finder_config() {
-    logging "info" "Configuring Finder settings"
-
-    # Use list view in all Finder windows by default
-    # Four-letter codes for the other view modes: `icnv`, `clmv`, `Flwv`
-    /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
-
-    # Disable the warning before emptying the Trash
-    /usr/bin/defaults write com.apple.finder WarnOnEmptyTrash -bool false
-
-    # Empty Trash securely by default
-    /usr/bin/defaults write com.apple.finder EmptyTrashSecurely -bool false
-
-    # Expand the following File Info panes:
-    # “General”, “Open with”, and “Sharing & Permissions”
-    /usr/bin/defaults write com.apple.finder FXInfoPanesExpanded -dict \
-        General -bool true \
-        OpenWith -bool true \
-        Privileges -bool true
-}
-
-keyboard_config() {
-    logging "info" "Configuring keyboard settings"
-
-    # Enable key repeat
-    /usr/bin/defaults write -g ApplePressAndHoldEnabled -bool false
-
-    # Set KeyRepeat to fast
-    # it is possible to set lower numbers of 0 or 1.
-    /usr/bin/defaults write NSGlobalDomain KeyRepeat -int 2
-
-    # Disable Force Touch
-    /usr/bin/defaults write com.apple.trackpad forceClick -bool false
-
-    # Enable Trackpad Expose
-    /usr/bin/defaults write com.apple.dock mcx-expose-disabled -bool false
-}
-
 #######################################################################################
 ################################ MAIN LOGIC ###########################################
 #######################################################################################
@@ -325,15 +287,11 @@ install_homebrew
 # Force boot verbose mode
 nvram boot-args="-v"
 
-# FINDER
-finder_config
-
-# KEYBOARD & MOUSE SETTINGS
-keyboard_config
-
 ####################################################################################
-# General settings
+# GENERAL
 ####################################################################################
+
+logging "info" "Configuring general settings"
 
 # Disable press-and-hold for keys in favor of key repeat
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
@@ -346,8 +304,29 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 15
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 
 ####################################################################################
+# KEYBOARD AND MOUSE
+####################################################################################
+
+logging "info" "Configuring keyboard settings"
+
+# Enable key repeat
+/usr/bin/defaults write -g ApplePressAndHoldEnabled -bool false
+
+# Set KeyRepeat to fast
+# it is possible to set lower numbers of 0 or 1.
+/usr/bin/defaults write NSGlobalDomain KeyRepeat -int 2
+
+# Disable Force Touch
+/usr/bin/defaults write com.apple.trackpad forceClick -bool false
+
+# Enable Trackpad Expose
+/usr/bin/defaults write com.apple.dock mcx-expose-disabled -bool false
+
+####################################################################################
 # TEXTEDIT
 ####################################################################################
+
+logging "info" "Configuring textedit settings"
 
 # Use plain text mode for new TextEdit documents
 defaults write com.apple.TextEdit RichText -int 0
@@ -367,6 +346,8 @@ defaults write com.apple.DiskUtility advanced-image-options -bool true
 # IMESSAGE
 ####################################################################################
 
+logging "info" "Configuring iMessage settings"
+
 # Disable automatic emoji substitution (i.e. use plain text smileys)
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
 
@@ -376,6 +357,8 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 ####################################################################################
 # FINDER
 ####################################################################################
+
+logging "info" "Configuring Finder settings"
 
 # Finder: allow quitting via ⌘ + Q; doing so will also hide desktop icons
 defaults write com.apple.finder QuitMenuItem -bool true
@@ -423,6 +406,8 @@ defaults write com.apple.finder EmptyTrashSecurely -bool true
 # DOCK
 ####################################################################################
 
+logging "info" "Configuring Dock settings"
+
 # Set the icon size of Dock items to 36 pixels
 defaults write com.apple.dock tilesize -int 36
 
@@ -441,12 +426,11 @@ defaults write com.apple.dock launchanim -bool false
 # Don’t show Dashboard as a Space
 defaults write com.apple.dock dashboard-in-overlay -bool true
 
-# restart dock
-/usr/bin/killall Dock
-
 ####################################################################################
 # SAFARI
 ####################################################################################
+
+logging "info" "Configuring Safari settings"
 
 # Privacy: don’t send search queries to Apple
 defaults write com.apple.Safari UniversalSearchEnabled -bool false
@@ -485,12 +469,16 @@ defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 # MAIL
 ####################################################################################
 
+logging "info" "Configuring Apple Mail.app settings"
+
 # Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
 defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 
 ####################################################################################
 # ACTIVITY MONITOR
 ####################################################################################
+
+logging "info" "Configuring Activity Monitor settings"
 
 # Show the main window when launching Activity Monitor
 defaults write com.apple.ActivityMonitor OpenMainWindow -bool tr
@@ -506,9 +494,11 @@ defaults write com.apple.ActivityMonitor SortDirection -int 0
 # SECURITY
 ####################################################################################
 
+logging "info" "Configuring Security settings"
+
 # Require password immediately after sleep or screen saver begins
-# defaults write com.apple.screensaver askForPassword -int 1
-# defaults write com.apple.screensaver askForPasswordDelay -int 0
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 ####################################################################################
 # TERMINAL
@@ -523,6 +513,8 @@ defaults write com.apple.ActivityMonitor SortDirection -int 0
 ####################################################################################
 # SCREENSHOT CONFIG
 ####################################################################################
+
+logging "info" "Configuring screenshot behavior settings"
 
 logging "info" "Configuring screenshot settings"
 
@@ -581,6 +573,20 @@ logging "info" "Creating .zshrc config ..."
 /usr/bin/su - "$current_user" -c /bin/cp .zshrc "/Users/$current_user/.zshrc"
 
 ####################################################################################
+# colorls
+####################################################################################
+
+/usr/bin/gem install colorls
+/bin/mkdir -p "/Users/${current_user}/.config/colorls"
+/usr/bin/su - "$current_user" -c cp "$HERE/dark_colors.yaml" "/Users/${current_user}/.config/colorls"
+
+####################################################################################
+# ohmyzsh
+####################################################################################
+
+/usr/bin/su - "$current_user" -c sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+####################################################################################
 # SETUP PYTHON3 EVIRONMENT
 ####################################################################################
 
@@ -612,20 +618,6 @@ logging "info" "Installing python dependency modules ..."
 /usr/bin/su - "$current_user" -c python3 -m pip install beautysh
 /usr/bin/su - "$current_user" -c python3 -m pip install shellcheck-py
 /usr/bin/su - "$current_user" -c python3 -m pip install scriv
-
-####################################################################################
-# colorls
-####################################################################################
-
-/usr/bin/gem install colorls
-/bin/mkdir -p "/Users/${current_user}/.config/colorls"
-/usr/bin/su - "$current_user" -c cp "$HERE/dark_colors.yaml" "/Users/${current_user}/.config/colorls"
-
-####################################################################################
-# ohmyzsh
-####################################################################################
-
-/usr/bin/su - "$current_user" -c sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 ####################################################################################
 # CLEANUP
