@@ -63,13 +63,13 @@ HOMEBREW_APPS=(
     chromium
     daisydisk
     firefox
-    firefox-developer-edition
+    # firefox-developer-edition
     gitify
     gnupg
     grammarly
     hermes
     hyper
-    insomnia
+    # insomnia
     jq
     knockknock
     lulu
@@ -78,10 +78,10 @@ HOMEBREW_APPS=(
     npm
     omnigraffle
     openssl
-    oversight
+    # oversight
     packages
     pdf-expert
-    pocket-casts
+    # pocket-casts
     postman
     pppc-utility
     private-internet-access
@@ -104,6 +104,7 @@ HOMEBREW_APPS=(
     xz
     zlib
     font-3270-nerd-font
+    powerlevel10k
 )
 
 #######################################################################################
