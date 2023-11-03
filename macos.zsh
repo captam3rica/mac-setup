@@ -105,6 +105,8 @@ HOMEBREW_APPS=(
     zlib
     font-3270-nerd-font
     powerlevel10k
+    zsh-autosuggestions
+    zsh-syntax-highlighting
 )
 
 #######################################################################################
