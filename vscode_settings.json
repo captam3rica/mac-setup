@@ -1,20 +1,20 @@
 {
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
-    "editor.formatOnType": true
+    "editor.formatOnType": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.organizeImports": true
+    }
   },
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
   },
-  "atomKeymap.promptV3Features": true,
-"autoDocstring.startOnNewLine": true,
+  "autoDocstring.startOnNewLine": true,
   "css.format.spaceAroundSelectorSeparator": true,
   "editor.comments.ignoreEmptyLines": false,
-  "editor.fontFamily": "Fira Code, monospace",
+  "editor.fontFamily": "Fira Code",
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.minimap.enabled": true,
@@ -24,27 +24,18 @@
   "editor.minimap.side": "left",
   "editor.multiCursorModifier": "ctrlCmd",
   "editor.renderLineHighlight": "all",
-  "editor.rulers": [88],
+  "editor.rulers": [
+    88
+  ],
   "editor.wordWrap": "wordWrapColumn",
-  "editor.wordWrapColumn": 98,
-  "flake8.args": [
-    "--ignore",
-    "--max-line-length",
-    "88",
-    "E501,E402,F841,F401,E302,E305,E266,E133,W503"
-],
-"flake8.showNotifications": "always",
-"python.defaultInterpreterPath": "/Users/captam3rica/.pyenv/shims/python",
-  "python.analysis.diagnosticSeverityOverrides": {},
-  "python.analysis.extraPaths": [],
-"python.autoComplete.extraPaths": [],
-  "python.formatting.provider": "black",
+  "editor.wordWrapColumn": 88,
+  "python.defaultInterpreterPath": "/Users/captam3rica/.pyenv/shims/python",
+  "python.autoComplete.extraPaths": [],
   "scm.diffDecorationsGutterPattern": {
     "modified": false
   },
   "scm.diffDecorationsGutterWidth": 4,
   "security.workspace.trust.untrustedFiles": "open",
-  "workbench.activityBar.visible": false,
   "workbench.colorCustomizations": {
     "[Dracula Pro]": {
       "editor.findMatchBackground": "#E22E4E",
@@ -78,12 +69,8 @@
     }
   },
   "workbench.colorTheme": "Dracula Pro",
-  "workbench.iconTheme": "atom-icons",
-  "gitlens.advanced.messages": {
-    "suppressLineUncommittedWarning": true
-  },
+  "workbench.iconTheme": "Monokai Classic Monochrome Icons",
   "explorer.confirmDelete": false,
-  "editor.fontSize": 11,
   "editor.suggest.insertMode": "replace",
   "editor.wordBasedSuggestionsMode": "allDocuments",
   "shellcheck.ignorePatterns": {
@@ -94,15 +81,11 @@
     "--external-sources",
     "--severity=warning",
     "--exclude=SC2046,SC2053,SC2068,SC2179,SC2181,SC2199,SC2207,SC2229,SC2296"
-],
-"python.linting.flake8Path": "",
-"python.linting.flake8Enabled": true,
-"black-formatter.showNotifications": "always",
-"settingsSync.ignoredSettings": [
-    "-python.formatting.blackPath",
-    "-flake8.showNotifications",
-    "-python.linting.flake8Path"
-],
+  ],
+  "black-formatter.showNotifications": "always",
+  "settingsSync.ignoredSettings": [
+    "-python.formatting.blackPath"
+  ],
   "workbench.preferredDarkColorTheme": "Dracula Pro",
   "workbench.preferredLightColorTheme": "Dracula Pro",
   "githubIssues.queries": [
@@ -121,8 +104,13 @@
     }
   ],
   "editor.fontVariations": false,
-  "python.formatting.blackPath": "",
-"shellformat.path": "/opt/homebrew/bin/shfmt",
-"isort.check": true,
-"python.analysis.completeFunctionParens": true
+  "shellformat.path": "/opt/homebrew/bin/shfmt",
+  "editor.accessibilitySupport": "off",
+  "editor.cursorStyle": "block",
+  "yaml.maxItemsComputed": 50000,
+  "ruff.showNotifications": "always",
+  "openapi.dataDictionaryPreAuditFix": "always",
+  "flake8.args": [
+    "--ignore=E501,E266"
+  ]
 }
