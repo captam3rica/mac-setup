@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -47,13 +54,11 @@ zstyle ':omz:update' mode auto # update automatically without asking
 # You can also set it to another string to have that shown instead of the default red dots.
 # e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
 # Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # You can set one of the optional three formats:
@@ -122,33 +127,40 @@ echo ""
 who
 echo ""
 
+# ls and colorls
 # alias ls="ls -G  -F"
 # alias ll="ls -la"
 alias ls="colorls --dark"
 alias ll="colorls --dark -la"
+alias lst="colorls --dark -t"
+
+# misc
+alias neo="nvim"
 alias grep="grep --color"
 alias bitwarden="bw"
 alias gotoicloud="cd /Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |  /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' | /usr/bin/awk -F '@' '{print $1}')/Library/Mobile\ Documents/com~apple~CloudDocs"
 alias gotoipsw="cd ~/Library/Group\ Containers/K36BKF7T3D.group.com.apple.configurator/Library/Caches/Firmware/"
 alias gotokandjigit="cd ~/Google\ Drive/My\ Drive/kandji-git-repos"
+alias gotokandjigit="cd ~/Google\ Drive/My\ Drive/kandji-git-repos"
+alias ipswmacos="open https://ipsw.me/$(/usr/sbin/system_profiler SPHardwareDataType | grep "Model Identifier" | awk '{print $3}')"
+alias msaaderrors="open https://login.microsoftonline.com/error"
+
+# github
 alias gitba="git branch -lav"
 alias gitb="git branch --show-current"
 alias gitsm="git switch main"
 alias gits="git status ."
-alias ipswmacos="open https://ipsw.me/$(/usr/sbin/system_profiler SPHardwareDataType | grep "Model Identifier" | awk '{print $3}')"
-alias msaaderrors="open https://login.microsoftonline.com/error"
 
+# global exports
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
-# export PROMPT="%m%#: "
-export EDITOR="/usr/bin/vim"
+export EDITOR="/usr/bin/nvim"
 export HISTFILESIZE=10
 export HISTSIZE=10
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 export HISTIGNORE="&:clear:ls:cd:[bf]g:exit:[ t\]*"
 export EMACS="*term*"
-
-export GITGUARDIAN_API_KEY=""
+export GITGUARDIAN_API_KEY="4C0562D4b8eAcC0CcBaB9DD0AE385053d1a13Cb67cfd847137DAbEF60b9B28Df6cDFb72"
 
 bindkey -e
 
@@ -167,3 +179,10 @@ else
     # pyenv-virtualenv
     eval "$(/opt/homebrew/bin/pyenv virtualenv-init -)"
 fi
+
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
