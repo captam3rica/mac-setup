@@ -103,7 +103,8 @@ HOMEBREW_APPS=(
     visual-studio-code
     xz
     zlib
-    font-3270-nerd-font
+    # brew tap homebrew/cask-fonts
+    font-hack-nerd-font
     powerlevel10k
     zsh-autosuggestions
     zsh-syntax-highlighting
