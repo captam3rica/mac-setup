@@ -154,7 +154,12 @@ alias gits="git status ."
 # global exports
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
-export EDITOR="/usr/bin/nvim"
+
+if [[ -f /usr/bin/nvim ]]; then
+        export EDITOR="/usr/bin/nvim"; then
+else
+        export EDITOR="/usr/local/bin/vim"
+
 export HISTFILESIZE=10
 export HISTSIZE=10
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
@@ -180,9 +185,13 @@ else
     eval "$(/opt/homebrew/bin/pyenv virtualenv-init -)"
 fi
 
-source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -d /opt/homebrew ]]; then 
+        source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+        source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+else
+        source /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme
+        source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
