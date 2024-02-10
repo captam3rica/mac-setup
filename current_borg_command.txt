@@ -1,0 +1,1 @@
+borg --progress create --stats --compression lz4 --exclude-caches /Volumes/Tholos/avenger-backups::tuesday-morning ~/OneDrive\ -\ Insight ~/Box ~/Git_Clones ~/.vim ~/.vimrc ~/.atom ~/.zshrc
