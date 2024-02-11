@@ -90,6 +90,7 @@ HOMEBREW_APPS=(
     pyenv-pip-migrate
     pyenv-virtualenv
     readline
+    rectangle
     ruby
     signal
     shellcheck
@@ -563,14 +564,12 @@ for ((i = 1; i <= ${#HOMEBREW_APPS[@]}; i++)); do
     logging "info" "Installing $app from Homebrew..."
 
     # Install all the home brew apps
-    # /usr/bin/su - "$current_user" -c $brew_bin install "$app"
     $brew_bin install "$app"
 
     if [[ $? -ne 0 ]]; then
         # Try installing with cask because app not available from brew directly
         logging "info" "Unable to install $app from brew install ..."
         logging "info" "Trying brew cask install $app ..."
-        # /usr/bin/su - "$current_user" -c "$brew_bin" install --cask "$app"
         "$brew_bin" install --cask "$app"
     fi
 done
@@ -582,7 +581,6 @@ done
 ####################################################################################
 
 logging "info" "Creating .zshrc config ..."
-# /usr/bin/su - "$current_user" -c /bin/cp .zshrc "/Users/$current_user/.zshrc"
 /bin/cp .zshrc "/Users/$current_user/.zshrc"
 
 ####################################################################################
@@ -591,15 +589,28 @@ logging "info" "Creating .zshrc config ..."
 
 sudo /usr/bin/gem install colorls
 /bin/mkdir -p "/Users/${current_user}/.config/colorls"
-# /usr/bin/su - "$current_user" -c cp "$HERE/dark_colors.yaml" "/Users/${current_user}/.config/colorls"
 /bin/cp "$HERE/dark_colors.yaml" "/Users/${current_user}/.config/colorls"
 
 ####################################################################################
 # ohmyzsh
 ####################################################################################
 
-# /usr/bin/su - "$current_user" -c sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+####################################################################################
+# SETUP Hyper
+####################################################################################
+
+logging "info" "Setting up hyper dracula theme"
+
+# copy hyper.js settings file
+/bin/cp -a hyper.js /Users/$current_user/
+
+# create the hyper themes directory
+/bin/mkdir -p /Users/$current_user/.hyper_plugins/local
+
+# move the theme folder into place
+/bin/cp -a hyper_dracula_pro/dracula-pro /Users/$current_user/.hyper_plugins/local
 
 ####################################################################################
 # SETUP PYTHON3 EVIRONMENT
@@ -608,15 +619,12 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 logging "info" "Setting up the python 3 environment ..."
 
 logging "info" "Using pyenv to install python version $PYTHON_VERSION"
-# pyenv install "$PYTHON_VERSION"
 pyenv install "$PYTHON_VERSION"
 
 logging "info" "Setting global python version to $PYTHON_VERSION"
-# pyenv global "$PYTHON_VERSION"
 pyenv global "$PYTHON_VERSION"
 
 logging "info" "Upgrading pip ..."
-# python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade pip
 
 logging "info" "Installing python dependency modules ..."
