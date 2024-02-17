@@ -59,6 +59,7 @@ HOMEBREW_APPS=(
     # bettertouchtool
     blockblock
     beautysh
+    brooklyn
     checkbashisms
     chromium
     daisydisk
@@ -633,10 +634,13 @@ python3 -m pip install black
 python3 -m pip install flake8
 python3 -m pip install ggshield
 python3 -m pip install isort
+python3 -m pip install numpy
+python3 -m pip install numpy_financial
 python3 -m pip install pandas
 python3 -m pip install pathlib
 python3 -m pip install pre-commit
 python3 -m pip install requests
+python3 -m pip install ruff
 python3 -m pip install toml
 python3 -m pip install beautysh
 python3 -m pip install shellcheck-py
