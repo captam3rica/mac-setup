@@ -1,9 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -127,6 +121,13 @@ echo ""
 who
 echo ""
 
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # ls and colorls
 # alias ls="ls -G  -F"
 # alias ll="ls -la"
@@ -137,36 +138,22 @@ alias lst="colorls --dark -t"
 # misc
 alias neo="nvim"
 alias grep="grep --color"
-alias bitwarden="bw"
 alias gotoicloud="cd /Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |  /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' | /usr/bin/awk -F '@' '{print $1}')/Library/Mobile\ Documents/com~apple~CloudDocs"
 alias gotoipsw="cd ~/Library/Group\ Containers/K36BKF7T3D.group.com.apple.configurator/Library/Caches/Firmware/"
 alias gotokandjigit="cd ~/Google\ Drive/My\ Drive/kandji-git-repos"
-alias gotokandjigit="cd ~/Google\ Drive/My\ Drive/kandji-git-repos"
 alias ipswmacos="open https://ipsw.me/$(/usr/sbin/system_profiler SPHardwareDataType | grep "Model Identifier" | awk '{print $3}')"
 alias msaaderrors="open https://login.microsoftonline.com/error"
+alias github="open https://github.com/"
+alias appleicons="open /System/Library/Components/CoreAudio.component/Contents/Resources"
+alias coreicons="open /System/Library/CoreServices/CoreTypes.bundle/Contents/Resources"
+alias acd="/opt/cisco/anyconnect/bin/vpn disconnect"
+alias acs="/opt/cisco/anyconnect/bin/vpn state"
 
 # github
 alias gitba="git branch -lav"
 alias gitb="git branch --show-current"
 alias gitsm="git switch main"
 alias gits="git status ."
-
-# global exports
-export PATH="/usr/local/sbin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
-
-if [[ -f /usr/bin/nvim ]]; then
-        export EDITOR="/usr/bin/nvim"; then
-else
-        export EDITOR="/usr/local/bin/vim"
-fi
-
-export HISTFILESIZE=10
-export HISTSIZE=10
-export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
-export HISTIGNORE="&:clear:ls:cd:[bf]g:exit:[ t\]*"
-export EMACS="*term*"
-export GITGUARDIAN_API_KEY="4C0562D4b8eAcC0CcBaB9DD0AE385053d1a13Cb67cfd847137DAbEF60b9B28Df6cDFb72"
 
 bindkey -e
 
@@ -196,3 +183,24 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+function anyconnect() {
+    if [[ $(/opt/cisco/anyconnect/bin/vpn state | grep Disconnected | sort -u) ]]; then
+        /opt/cisco/anyconnect/bin/vpn -s < ~/.anyconnect_creds
+    else
+        /opt/cisco/anyconnect/bin/vpn disconnect
+    fi
+}
+
+function pkg_expand() {
+    # Command line tool - expands a PKG from passed arg and cds into exploded dir
+    pkg_path=$(realpath "${1}" 2>/dev/null)
+    exploded_pkg="/tmp/$(basename ${pkg_path} 2>/dev/null)"
+    # See man zshmisc under ALTERNATE FORMS FOR COMPLEX COMMANDS
+    if [[ -z $(grep "\w" <<< "${pkg_path}") ]] echo "You must provide a valid path!" && return
+    if [[ -d "${exploded_pkg}" ]] mv "${exploded_pkg}" "${exploded_pkg/.pkg/_$(date +%s).pkg}"
+    pkgutil --expand-full ${pkg_path} "${exploded_pkg}" && cd "${exploded_pkg}"
+}
+
+
+
