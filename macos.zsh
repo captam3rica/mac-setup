@@ -31,15 +31,18 @@
 ########################################################################################
 
 # Set the version of python that we want pyenv to install
-PYTHON_VERSION="3.11.1"
+PYTHON_VERSION="3.13.1"
 
-VERSION="1.0.1"
+VERSION="1.1.0"
 
 # Define this scripts current working directory
 HERE="$(/usr/bin/dirname "$0")"
 
 # Script name
 SCRIPT_NAME="$(/usr/bin/basename "$0")"
+
+# brew bundle file path
+BREWBUNDLE="${HERE}/brewfile"
 
 # Logging files
 LOG_FILE="$SCRIPT_NAME""_log-$(date +"%Y-%m-%d").log"
@@ -49,71 +52,7 @@ LOG_PATH="/Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |
 
 # Application installation array for Homebrew
 
-declare -a HOMEBREW_APPS
 declare -a GIT_REPOS
-
-HOMEBREW_APPS=(
-    1password
-    anka-virtualization
-    autopkgr
-    # bettertouchtool
-    blockblock
-    beautysh
-    brooklyn
-    checkbashisms
-    chromium
-    daisydisk
-    firefox
-    # firefox-developer-edition
-    gitify
-    gnupg
-    grammarly
-    hermes
-    hyper
-    # insomnia
-    jq
-    knockknock
-    lulu
-    macdown
-    mist
-    neovim
-    npm
-    omnigraffle
-    openssl
-    # oversight
-    packages
-    pdf-expert
-    # pocket-casts
-    postman
-    pppc-utility
-    private-internet-access
-    pyenv
-    pyenv-pip-migrate
-    pyenv-virtualenv
-    readline
-    rectangle
-    ruby
-    signal
-    shellcheck
-    shfmt
-    speedtest-cli
-    sqlite3
-    suspicious-package
-    ticktick
-    topnotch
-    wireshark
-    # vim
-    visual-studio-code
-    xz
-    zlib
-    # brew tap homebrew/cask-fonts
-    font-hack-nerd-font
-    # https://github.com/romkatv/powerlevel10k
-    # p10k configure
-    powerlevel10k
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-)
 
 #######################################################################################
 ################################ FUNCTIONS ############################################
@@ -554,18 +493,9 @@ else
     brew_bin="/usr/local/bin/brew"
 fi
 
-# for some other app installers
-brew tap homebrew/cask-versions
-brew tap homebrew/cask-fonts
-
-for ((i = 1; i <= ${#HOMEBREW_APPS[@]}; i++)); do
-
-    app="${HOMEBREW_APPS[$i]}"
-
-    logging "info" "Installing $app from Homebrew..."
-
-    # Install all the home brew apps
-    $brew_bin install "$app"
+# Install all the home brew apps
+logging "info" "Installing app from bundle file: ${BREWBUNDLE}"
+$brew_bin bundle
 
     if [[ $? -ne 0 ]]; then
         # Try installing with cask because app not available from brew directly
@@ -596,22 +526,9 @@ sudo /usr/bin/gem install colorls
 # ohmyzsh
 ####################################################################################
 
+logging "info" "Installing ohmyzsh"
+
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-####################################################################################
-# SETUP Hyper
-####################################################################################
-
-logging "info" "Setting up hyper dracula theme"
-
-# copy hyper.js settings file
-/bin/cp -a hyper.js /Users/$current_user/
-
-# create the hyper themes directory
-/bin/mkdir -p /Users/$current_user/.hyper_plugins/local
-
-# move the theme folder into place
-/bin/cp -a hyper_dracula_pro/dracula-pro /Users/$current_user/.hyper_plugins/local
 
 ####################################################################################
 # SETUP PYTHON3 EVIRONMENT
