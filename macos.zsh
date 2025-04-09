@@ -50,10 +50,6 @@ LOG_PATH="/Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |
     /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' |
     /usr/bin/awk -F '@' '{print $1}')/Desktop/$LOG_FILE"
 
-# Application installation array for Homebrew
-
-declare -a GIT_REPOS
-
 #######################################################################################
 ################################ FUNCTIONS ############################################
 #######################################################################################
@@ -498,11 +494,14 @@ logging "info" "Installing app from bundle file: ${BREWBUNDLE}"
 $brew_bin bundle
 
 ####################################################################################
-# SETUP .ZSHRC
+# SETUP ZSHELL
 ####################################################################################
 
 logging "info" "Creating .zshrc config ..."
 /bin/cp .zshrc "/Users/$current_user/.zshrc"
+
+logging "info" "Creating .zshenv config ..."
+/bin/cp .zshenv "/Users/$current_user/.zshenv"
 
 ####################################################################################
 # colorls
@@ -573,5 +572,7 @@ for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
 done
 
 logging "info" "Done. Note that some of these changes require a logout/restart of your OS to take effect.  At a minimum, be sure to restart your Terminal."
+
+/bin/echo "Done. Note that some of these changes require a logout/restart of your OS to take effect.  At a minimum, be sure to restart your Terminal."
 
 exit 0

@@ -2,8 +2,10 @@
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 
-if [[ -f /usr/bin/nvim ]]; then
-        export EDITOR="/usr/bin/nvim"; then
+if [[ -f /opt/homebrew/bin/nvim ]]; then
+        export EDITOR="/opt/homebrew/bin/nvimm"
+elif [[ -f /usr/bin/nvim ]]; then
+        export EDITOR="/usr/bin/nvim"
 else
         export EDITOR="/usr/local/bin/vim"
 fi
