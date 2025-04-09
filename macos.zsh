@@ -497,16 +497,6 @@ fi
 logging "info" "Installing app from bundle file: ${BREWBUNDLE}"
 $brew_bin bundle
 
-    if [[ $? -ne 0 ]]; then
-        # Try installing with cask because app not available from brew directly
-        logging "info" "Unable to install $app from brew install ..."
-        logging "info" "Trying brew cask install $app ..."
-        "$brew_bin" install --cask "$app"
-    fi
-done
-
-# exit 0
-
 ####################################################################################
 # SETUP .ZSHRC
 ####################################################################################
