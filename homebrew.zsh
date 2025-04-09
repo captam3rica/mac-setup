@@ -139,7 +139,9 @@ VERSION="1.5.2"
 # Logging config
 LOG_NAME="homebrew_install.log"
 LOG_DIR="/Library/Logs"
-LOG_PATH="/Users/captam3rica/Desktop/$LOG_NAME"
+LOG_PATH="/Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |
+    /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' |
+    /usr/bin/awk -F '@' '{print $1}')/Desktop/$LOG_NAME"
 
 ########################################################################################
 ############################ FUNCTIONS - DO NOT MODIFY BELOW ###########################
