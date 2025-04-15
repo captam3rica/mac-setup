@@ -491,7 +491,7 @@ fi
 
 # Install all the home brew apps
 logging "info" "Installing app from bundle file: ${BREWBUNDLE}"
- /usr/bin/su - "$current_user" -c "$brew_bin bundle" |
+ /usr/bin/su - "$current_user" -c "$brew_bin bundle --file /Users/$current_user/git-repos/mac-setup/brewfile" |
             /usr/bin/tee -a "${LOG_PATH}"
 
 ####################################################################################
