@@ -54,12 +54,12 @@ LOG_PATH="/Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |
 ################################ FUNCTIONS ############################################
 #######################################################################################
 
-logging() {
+function logging() {
     # Logging function
     #
-    # Takes in a log level and log string and logs to /Library/Logs/$script_name if a LOG_PATH
-    # constant variable is not found. Will set the log level to INFO if the first built-in $1 is
-    # passed as an empty string.
+    # Takes in a log level and log string and logs to /Library/Logs/$script_name if a
+    # LOG_PATH constant variable is not found. Will set the log level to INFO if the
+    # first built-in $1 is passed as an empty string.
     #
     # Args:
     #   $1: Log level. Examples "info", "warning", "debug", "error"
@@ -96,7 +96,7 @@ logging() {
 
 }
 
-rosetta2_check() {
+function rosetta2_check() {
     # Check for and install Rosetta2 if needed.
     # $1: processor_brand
     # Determine the processor brand
@@ -107,9 +107,9 @@ rosetta2_check() {
         check_rosetta_status=$(/usr/bin/pgrep oahd)
 
         # Rosetta Folder location
-        # Condition to check to see if the Rosetta folder exists. This check was added because
-        # the Rosetta2 service is already running in macOS versions 11.5 and greater without
-        # Rosseta2 actually being installed.
+        # Condition to check to see if the Rosetta folder exists. This check was added
+        # because the Rosetta2 service is already running in macOS versions 11.5 and
+        # greater without Rosseta2 actually being installed.
         rosetta_folder="/Library/Apple/usr/share/rosetta"
 
         if [[ -n $check_rosetta_status ]] && [[ -e $rosetta_folder ]]; then
@@ -133,7 +133,7 @@ rosetta2_check() {
     fi
 }
 
-xcode_cli_tools() {
+function xcode_cli_tools() {
     # Check for and install Xcode CLI tools
     # Run command to check for an Xcode cli tools path
     /usr/bin/xcrun --version >/dev/null 2>&1
@@ -190,7 +190,7 @@ xcode_cli_tools() {
     fi
 }
 
-install_homebrew() {
+function install_homebrew() {
     logging "info" "use the kandji script ..."
     logging "info" "https://github.com/kandji-inc/support/blob/main/Scripts/InstallHomebrew.zsh"
     zsh "$HERE/homebrew.zsh"
@@ -448,11 +448,11 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0
 # TERMINAL
 ####################################################################################
 
-# # Use a modified version of the Pro theme by default in Terminal.app
-# # /usr/bin/open "${HOME}/Downloads/Dracula.terminal"
-# # /bin/sleep 1 # Wait a bit to make sure the theme is loaded
-# # /usr/bin/defaults write com.apple.terminal "Default Window Settings" -string "Dracula"
-# # /usr/bin/defaults write com.apple.terminal "Startup Window Settings" -string "Dracula"
+# Use a modified version of the Pro theme by default in Terminal.app
+# /usr/bin/open "${HOME}/Downloads/Dracula.terminal"
+# /bin/sleep 1 # Wait a bit to make sure the theme is loaded
+# /usr/bin/defaults write com.apple.terminal "Default Window Settings" -string "Dracula"
+# /usr/bin/defaults write com.apple.terminal "Startup Window Settings" -string "Dracula"
 #
 ####################################################################################
 # SCREENSHOT CONFIG
@@ -520,37 +520,36 @@ logging "info" "Installing ohmyzsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 ####################################################################################
-# SETUP PYTHON3 EVIRONMENT
+# SETUP PYTHON3 ENVIRONMENT
 ####################################################################################
 
 logging "info" "Setting up the python 3 environment ..."
 
 logging "info" "Using pyenv to install python version $PYTHON_VERSION"
-pyenv install "$PYTHON_VERSION"
+# pyenv install "$PYTHON_VERSION"
 
 logging "info" "Setting global python version to $PYTHON_VERSION"
-pyenv global "$PYTHON_VERSION"
+# pyenv global "$PYTHON_VERSION"
 
 logging "info" "Upgrading pip ..."
-python3 -m pip install --upgrade pip
+# python3 -m pip install --upgrade pip
 
 logging "info" "Installing python dependency modules ..."
 
-python3 -m pip install black
-python3 -m pip install flake8
-python3 -m pip install ggshield
-python3 -m pip install isort
-python3 -m pip install numpy
-python3 -m pip install numpy_financial
-python3 -m pip install pandas
-python3 -m pip install pathlib
-python3 -m pip install pre-commit
-python3 -m pip install requests
-python3 -m pip install ruff
-python3 -m pip install toml
-python3 -m pip install beautysh
-python3 -m pip install shellcheck-py
-python3 -m pip install scriv
+uv tool install pre-commit
+uv tool install ruff
+uv tool install scriv
+# python3 -m pip install black
+# python3 -m pip install flake8
+# python3 -m pip install isort
+# python3 -m pip install numpy
+# python3 -m pip install numpy_financial
+# python3 -m pip install pandas
+# python3 -m pip install pathlib
+# python3 -m pip install requests
+# python3 -m pip install toml
+# python3 -m pip install beautysh
+# python3 -m pip install shellcheck-py
 
 ####################################################################################
 # CLEANUP

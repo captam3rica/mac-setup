@@ -1,0 +1,78 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: 871f3bcae4fe473cd7109c3a068db975dc035e3b  # frozen: v0.9.4
+    hooks:
+      - id: ruff
+        args: ["--fix", "--show-fixes", "--exit-non-zero-on-fix"]
+
+      - id: ruff-format
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 716ae58f58af74348b3e446f7575073d50772b1f  # frozen: 0.5.1
+    hooks:
+      - id: uv-lock
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        description: Sorts your python imports
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        description: Static analysis tool for shell scripts
+        types: [shell]
+        args:
+          [
+            "--shell=bash",
+            "--external-sources",
+            "--severity=warning",
+            "--exclude=SC2046,SC2053,SC2068,SC2179,SC2181,SC2199,SC2207,SC2229,SC2296",
+          ]
+
+#  - repo: https://github.com/lovesegfault/beautysh
+#    rev: 386e46cf6e6e68e26e90a6c0e8c3d0f0d30c101c # frozen: v6.2.1
+#    hooks:
+#      - id: beautysh
+#       args: ["--indent-size=4", "--force-function-style=fnpar"]
+#        additional_dependencies:
+#          # beautysh hasn't been updated since python 3.12 removed the default install of setuptools
+#          - setuptools
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: 68e8b45440415753fff70a312ece8da92ba85b4a # frozen: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ["--exclude-lines", '\${.*}', "--exclude-files", '.*pkg\.recipe|\.pre-commit-config.yaml']
+
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: a30f0d816e5062a67d87c8de753cfe499672b959 # frozen: v1.5.5
+    hooks:
+      - id: remove-tabs
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: cef0300fd0fc4d2a87a85fa2093c6b283ea36f4b # frozen: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=5120"] # 5 MB limit
+
+      - id: check-xml
+        types: ["file", "non-executable", "text"]
+        files: \.(recipe|plist|xml)$
+
+      - id: check-yaml
+
+      - id: check-toml
+
+      - id: debug-statements
+
+      - id: pretty-format-json
+        args: ["--autofix", "--indent=2", "--no-sort-keys"]
+
+      - id: check-json
+
+      - id: trailing-whitespace
+
+      - id: end-of-file-fixer
