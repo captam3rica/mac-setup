@@ -162,17 +162,6 @@ autoload -U compinit && compinit
 # colorls settings
 source $(dirname $(gem which colorls))/tab_complete.sh
 
-# pyenv stuff
-if [[ -f /usr/local/bin/pyenv ]]; then
-    eval "$(/usr/local/bin/pyenv init --path)"
-    # pyenv-virtualenv
-    eval "$(/usr/local/bin/pyenv virtualenv-init -)"
-else
-    eval "$(/opt/homebrew/bin/pyenv init --path)"
-    # pyenv-virtualenv
-    eval "$(/opt/homebrew/bin/pyenv virtualenv-init -)"
-fi
-
 if [[ -d /opt/homebrew ]]; then 
         source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
         source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
