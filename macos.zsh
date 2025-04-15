@@ -491,7 +491,8 @@ fi
 
 # Install all the home brew apps
 logging "info" "Installing app from bundle file: ${BREWBUNDLE}"
-$brew_bin bundle
+ /usr/bin/su - "$current_user" -c "$brew_bin bundle" |
+            /usr/bin/tee -a "${LOG_PATH}"
 
 ####################################################################################
 # colorls
