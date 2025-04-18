@@ -1,11 +1,11 @@
 {
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
     "editor.codeActionsOnSave": {
-      "source.fixAll": true,
-      "source.organizeImports": true
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
     }
   },
   "[shellscript]": {
@@ -38,41 +38,25 @@
   "security.workspace.trust.untrustedFiles": "open",
   "workbench.colorCustomizations": {
     "[Dracula Pro]": {
-      "editor.findMatchBackground": "#E22E4E",
-      "editor.findMatchBorder": "#ffff00",
-      "editor.findMatchHighlightBorder": "#b38ee6",
-      "editor.findMatchHighlightBackground": "#b38ee6",
-      "editor.selectionHighlightBackground": "#980077",
-      "editor.lineHighlightBackground": "#181818",
-      "editor.lineHighlightBorder": "#181818",
-      "editor.selectionBackground": "#980077",
-      "editor.selectionHighlightBorder": "#000000",
-      "editor.selectionForeground": "#E22E4E",
-      "editor.wordHighlightStrongBackground": "#980077",
-      "editor.wordHighlightBackground": "#980077",
+      "editor.findMatchBackground": "#7459f1",
+      "editor.findMatchHighlightBackground": "#7459f1",
+      "editor.selectionHighlightBackground": "#7459f1",
+      "editor.selectionBackground": "#7459f1",
+      "editor.selectionForeground": "#7459f1",
+      "editor.wordHighlightStrongBackground": "#7459f1",
+      "editor.wordHighlightBackground": "#7459f1",
       "editorGutter.deletedBackground": "#E22E4E",
       "editorGutter.modifiedBackground": "#96734c",
       "gitDecoration.deletedResourceForeground": "#E22E4E",
       "gitDecoration.modifiedResourceForeground": "#b38ee6",
       "gitDecoration.stageModifiedResourceForeground": "#b38ee6",
       "gitDecoration.untrackedResourceForeground": "#5be174",
-      "minimap.selectionHighlight": "#980077",
-      "minimapGutter.modifiedBackground": "#96734c",
-      "panel.border": "#1A1921",
-      "settings.modifiedItemIndicator": "#b38ee6",
-      "sideBar.background": "#1A1921",
-      "sideBar.foreground": "#656989",
-      "sideBarSectionHeader.background": "#1A1921",
-      "tab.activeBorder": "#1A1921",
-      "tab.activeBorderTop": "#5be174",
-      "tab.unfocusedActiveBorderTop": "#1A1921"
+      "minimap.selectionHighlight": "#7459f1",
+      "minimapGutter.modifiedBackground": "#96734c"
     }
   },
-  "workbench.colorTheme": "Dracula Pro",
-  "workbench.iconTheme": "Monokai Classic Monochrome Icons",
   "explorer.confirmDelete": false,
   "editor.suggest.insertMode": "replace",
-  "editor.wordBasedSuggestionsMode": "allDocuments",
   "shellcheck.ignorePatterns": {
     "**/*.zsh": false
   },
@@ -83,9 +67,6 @@
     "--exclude=SC2046,SC2053,SC2068,SC2179,SC2181,SC2199,SC2207,SC2229,SC2296"
   ],
   "black-formatter.showNotifications": "always",
-  "settingsSync.ignoredSettings": [
-    "-python.formatting.blackPath"
-  ],
   "workbench.preferredDarkColorTheme": "Dracula Pro",
   "workbench.preferredLightColorTheme": "Dracula Pro",
   "githubIssues.queries": [
@@ -104,13 +85,14 @@
     }
   ],
   "editor.fontVariations": false,
-  "shellformat.path": "/opt/homebrew/bin/shfmt",
   "editor.accessibilitySupport": "off",
   "editor.cursorStyle": "block",
   "yaml.maxItemsComputed": 50000,
-  "ruff.showNotifications": "always",
   "openapi.dataDictionaryPreAuditFix": "always",
-  "flake8.args": [
-    "--ignore=E501,E266"
-  ]
+  "githubPullRequests.pullBranch": "never",
+  "ruff.lineLength": 119,
+  "workbench.colorTheme": "Dracula Pro",
+  "workbench.iconTheme": "bearded-icons",
+  "terminal.explorerKind": "external",
+  "terminal.external.osxExec": "Ghostty.app"
 }
