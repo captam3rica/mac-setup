@@ -491,17 +491,8 @@ fi
 
 # Install all the home brew apps
 logging "info" "Installing app from bundle file: ${BREWBUNDLE}"
-$brew_bin bundle
-
-####################################################################################
-# SETUP ZSHELL
-####################################################################################
-
-logging "info" "Creating .zshrc config ..."
-/bin/cp .zshrc "/Users/$current_user/.zshrc"
-
-logging "info" "Creating .zshenv config ..."
-/bin/cp .zshenv "/Users/$current_user/.zshenv"
+ /usr/bin/su - "$current_user" -c "$brew_bin bundle --file /Users/$current_user/git-repos/mac-setup/brewfile" |
+            /usr/bin/tee -a "${LOG_PATH}"
 
 ####################################################################################
 # colorls
@@ -552,12 +543,14 @@ uv tool install scriv
 # python3 -m pip install shellcheck-py
 
 ####################################################################################
-# CLEANUP
+# SETUP ZSHELL
 ####################################################################################
 
-logging "info" ""
-logging "info" "Initial Mac setup complete ..."
-logging "info" ""
+logging "info" "Creating .zshrc config ..."
+/bin/cp .zshrc "/Users/$current_user/.zshrc"
+
+logging "info" "Creating .zshenv config ..."
+/bin/cp .zshenv "/Users/$current_user/.zshenv"
 
 logging "info" "Resetting current Terminal session ..."
 /bin/zsh -l
@@ -569,6 +562,10 @@ for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
     "Transmission" "Twitter" "iCal"; do
     killall "${app}" >/dev/null 2>&1
 done
+
+logging "info" ""
+logging "info" "Initial Mac setup complete ..."
+logging "info" ""
 
 logging "info" "Done. Note that some of these changes require a logout/restart of your OS to take effect.  At a minimum, be sure to restart your Terminal."
 
