@@ -1,4 +1,3 @@
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -69,7 +68,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -128,40 +127,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# ls and colorls
-# alias ls="ls -G  -F"
-# alias ll="ls -la"
-alias ls="colorls --dark"
-alias ll="colorls --dark -la"
-alias lst="colorls --dark -t"
-
-# misc
-alias neo="nvim"
-alias grep="grep --color"
-alias gotoicloud="cd /Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |  /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' | /usr/bin/awk -F '@' '{print $1}')/Library/Mobile\ Documents/com~apple~CloudDocs"
-alias gotoipsw="cd ~/Library/Group\ Containers/K36BKF7T3D.group.com.apple.configurator/Library/Caches/Firmware/"
-alias gotokandjigit="cd ~/Google\ Drive/My\ Drive/kandji-git-repos"
-alias ipswmacos="open https://ipsw.me/$(/usr/sbin/system_profiler SPHardwareDataType | grep "Model Identifier" | awk '{print $3}')"
-alias msaaderrors="open https://login.microsoftonline.com/error"
-alias github="open https://github.com/"
-alias appleicons="open /System/Library/Components/CoreAudio.component/Contents/Resources"
-alias coreicons="open /System/Library/CoreServices/CoreTypes.bundle/Contents/Resources"
-alias acd="/opt/cisco/anyconnect/bin/vpn disconnect"
-alias acs="/opt/cisco/anyconnect/bin/vpn state"
-
-# github
-alias gitba="git branch -lav"
-alias gitb="git branch --show-current"
-alias gitsm="git switch main"
-alias gits="git status ."
-
-bindkey -e
-
-autoload -U compinit && compinit
-
-# colorls settings
-source $(dirname $(gem which colorls))/tab_complete.sh
-
 if [[ -d /opt/homebrew ]]; then 
         source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
         source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
@@ -170,26 +135,57 @@ else
         source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
+# zshes
+alias myzshrc="neo ~/.zshrc"
+alias myzshenv="neo ~/.zshenv"
+alias myzprofile="neo ~/.zprofile"
+
+# ls and colorls
+# alias ls="ls -G  -F"
+# alias ll="ls -la"
+alias ls="colorls --dark" 
+alias ll="colorls --dark -p -la --git-status --group-directories-first" # long list
+alias lst="colorls --dark -p --tree --git-status --group-directories-first" # tree view
+alias lsm="colorls --dark -plat --git-status --group-directories-first" # sort by modtime
+
+# misc
+alias emptytrash="osascript -e 'tell application \"Finder\" to empty the trash'"
+alias neo="nvim"
+alias grep="grep --color"
+alias gotoicloud="cd /Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |  /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' | /usr/bin/awk -F '@' '{print $1}')/Library/Mobile\ Documents/com~apple~CloudDocs"
+alias gotoipsw="cd ~/Library/Group\ Containers/K36BKF7T3D.group.com.apple.configurator/Library/Caches/Firmware/"
+alias gotokandjigit="cd ~/Google\ Drive/My\ Drive/kandji-git-repos"
+alias autopkgcache="open /Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |  /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' | /usr/bin/awk -F '@' '{print $1}')/Library/AutoPkg/Cache"
+alias cdautopkgcache="cd /Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |  /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' | /usr/bin/awk -F '@' '{print $1}')/Library/AutoPkg/Cache"
+alias ipswmacos="open https://ipsw.me/$(/usr/sbin/system_profiler SPHardwareDataType | grep "Model Identifier" | awk '{print $3}')"
+alias msaaderrors="open https://login.microsoftonline.com/error"
+alias appleicons="open /System/Library/Components/CoreAudio.component/Contents/Resources"
+alias coreicons="open /System/Library/CoreServices/CoreTypes.bundle/Contents/Resources"
+alias acd="/opt/cisco/anyconnect/bin/vpn disconnect"
+alias acs="/opt/cisco/anyconnect/bin/vpn state"
+
+# github
+alias github="open https://github.com/"
+alias gitba="git branch -lav"
+alias gitb="git branch --show-current"
+alias gitsm="git switch main"
+alias gits="git status --untracked-files"
+# clears away anything not in version control and resets your branch modifications. 
+alias gitfresh='git reset --hard HEAD && git clean -dffx -e ".venv" -e ".vscode" -e ".env" -e "node_modules"'
+
+# uv
+alias uvp="uv run --with poethepoet poe"
+
+bindkey -e
+
+autoload -U compinit && compinit
+
+# colorls settings
+source $(dirname $(gem which colorls))/tab_complete.sh
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-function anyconnect() {
-    if [[ $(/opt/cisco/anyconnect/bin/vpn state | grep Disconnected | sort -u) ]]; then
-        /opt/cisco/anyconnect/bin/vpn -s < ~/.anyconnect_creds
-    else
-        /opt/cisco/anyconnect/bin/vpn disconnect
-    fi
-}
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 
-function pkg_expand() {
-    # Command line tool - expands a PKG from passed arg and cds into exploded dir
-    pkg_path=$(realpath "${1}" 2>/dev/null)
-    exploded_pkg="/tmp/$(basename ${pkg_path} 2>/dev/null)"
-    # See man zshmisc under ALTERNATE FORMS FOR COMPLEX COMMANDS
-    if [[ -z $(grep "\w" <<< "${pkg_path}") ]] echo "You must provide a valid path!" && return
-    if [[ -d "${exploded_pkg}" ]] mv "${exploded_pkg}" "${exploded_pkg/.pkg/_$(date +%s).pkg}"
-    pkgutil --expand-full ${pkg_path} "${exploded_pkg}" && cd "${exploded_pkg}"
-}
-
-
-
+fpath+=~/.zfunc; autoload -Uz compinit; compinit
