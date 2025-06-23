@@ -1,0 +1,18 @@
+[user]
+	email = thecaptam3rica@gmail.com
+	name = captam3rica
+[credential "https://github.com"]
+	username = captam3rica
+[color]
+	ui = auto
+	editor = /opt/homebrew/bin/nvim
+[core]
+	editor = /opt/homebrew/bin/nvim
+# [commit]
+# 	template = /Users/mwilson/.stCommitMsg
+[credential]
+	helper = cache
+[color]
+	ui = auto
+[scriv "create"]
+	edit = true
