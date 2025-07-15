@@ -17,6 +17,7 @@ fi
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 export HISTIGNORE="&:clear:ls:cd:[bf]g:exit:[ t\]*"
 export EMACS="*term*"
+export GREP_COLOR="1;38;2;255;85;85"
 
 # uv
 export PATH="$HOME/.local/bin:$PATH"
