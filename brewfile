@@ -63,6 +63,7 @@ brew "gnupg"
 brew "openssl@3"
 brew "xz"
 brew "zlib"
+brew "terminal-nofify"
 
 # vscode and extensions
 cask "visual-studio-code"
