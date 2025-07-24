@@ -491,14 +491,14 @@ fi
 
 # Install all the home brew apps
 logging "info" "Installing app from bundle file: ${BREWBUNDLE}"
- /usr/bin/su - "$current_user" -c "$brew_bin bundle --file /Users/$current_user/git-repos/mac-setup/brewfile" |
+ /usr/bin/su - "$current_user" -c "$brew_bin bundle --file $HERE/brewfile" |
             /usr/bin/tee -a "${LOG_PATH}"
 
 ####################################################################################
 # colorls
 ####################################################################################
 
-sudo /usr/bin/gem install colorls
+sudo /opt/homebrew/opt/ruby/bin/gem install colorls
 /bin/mkdir -p "/Users/${current_user}/.config/colorls"
 /bin/cp "$HERE/dark_colors.yaml" "/Users/${current_user}/.config/colorls"
 
@@ -517,7 +517,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 logging "info" "Setting up the python 3 environment ..."
 
 logging "info" "Using pyenv to install python version $PYTHON_VERSION"
-# pyenv install "$PYTHON_VERSION"
+uv python install "$PYTHON_VERSION"
 
 logging "info" "Setting global python version to $PYTHON_VERSION"
 # pyenv global "$PYTHON_VERSION"
@@ -530,17 +530,12 @@ logging "info" "Installing python dependency modules ..."
 uv tool install pre-commit
 uv tool install ruff
 uv tool install scriv
-# python3 -m pip install black
-# python3 -m pip install flake8
-# python3 -m pip install isort
-# python3 -m pip install numpy
-# python3 -m pip install numpy_financial
-# python3 -m pip install pandas
-# python3 -m pip install pathlib
-# python3 -m pip install requests
-# python3 -m pip install toml
-# python3 -m pip install beautysh
-# python3 -m pip install shellcheck-py
+uv tool install requests
+uv tool install beautysh
+uv tool install shellcheck-py
+uv tool install isort
+uv tool install numpy
+uv tool install pandas
 
 ####################################################################################
 # SETUP ZSHELL
@@ -551,6 +546,9 @@ logging "info" "Creating .zshrc config ..."
 
 logging "info" "Creating .zshenv config ..."
 /bin/cp .zshenv "/Users/$current_user/.zshenv"
+
+logging "info" "Setting ownsership to currentuser:staff
+chown -R $current_user:staff /Users/$current_user >/dev/null 2>&1
 
 logging "info" "Resetting current Terminal session ..."
 /bin/zsh -l
