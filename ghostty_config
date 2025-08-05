@@ -1,0 +1,3 @@
+cursor-style = block
+cursor-color = #FF80BF
+shell-integration-features = no-cursor
