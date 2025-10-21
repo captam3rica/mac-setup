@@ -68,7 +68,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(aws colored-man-pages git zsh-autosuggestions)
+plugins=(aws colored-man-pages git web-search zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -136,45 +136,44 @@ else
 fi
 
 # zshes
-alias myzshrc="neo ~/.zshrc"
-alias myzshenv="neo ~/.zshenv"
-alias myzprofile="neo ~/.zprofile"
+alias myzshrc="nvim ~/.zshrc"
+alias myzshenv="nvim ~/.zshenv"
+alias myzprofile="nvim ~/.zprofile"
 
 # ls and colorls
 # alias ls="ls -G  -F"
 # alias ll="ls -la"
-alias ls="colorls --dark" 
+alias ls="colorls --dark --git-status" 
 alias ll="colorls --dark -p -la --git-status --group-directories-first" # long list
 alias lst="colorls --dark -p --tree --git-status --group-directories-first" # tree view
 alias lsm="colorls --dark -plat --git-status --group-directories-first" # sort by modtime
 
+alias bat="bat --style=numbers --color=always"
+
 # misc
 alias emptytrash="osascript -e 'tell application \"Finder\" to empty the trash'"
-alias neo="nvim"
 alias grep="grep --color"
 alias gotoicloud="cd /Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |  /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' | /usr/bin/awk -F '@' '{print $1}')/Library/Mobile\ Documents/com~apple~CloudDocs"
 alias gotoipsw="cd ~/Library/Group\ Containers/K36BKF7T3D.group.com.apple.configurator/Library/Caches/Firmware/"
-alias gotokandjigit="cd ~/Google\ Drive/My\ Drive/kandji-git-repos"
-alias autopkgcache="open /Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |  /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' | /usr/bin/awk -F '@' '{print $1}')/Library/AutoPkg/Cache"
-alias cdautopkgcache="cd /Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |  /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' | /usr/bin/awk -F '@' '{print $1}')/Library/AutoPkg/Cache"
-alias ipswmacos="open https://ipsw.me/$(/usr/sbin/system_profiler SPHardwareDataType | grep "Model Identifier" | awk '{print $3}')"
-alias msaaderrors="open https://login.microsoftonline.com/error"
-alias appleicons="open /System/Library/Components/CoreAudio.component/Contents/Resources"
-alias coreicons="open /System/Library/CoreServices/CoreTypes.bundle/Contents/Resources"
+alias gotogitrepos="cd ~/Google\ Drive/My\ Drive/dev"
+alias gotoautopkgcache="cd /Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |  /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' | /usr/bin/awk -F '@' '{print $1}')/Library/AutoPkg/Cache"
+alias openautopkgcache="open /Users/$(/usr/sbin/scutil <<<"show State:/Users/ConsoleUser" |  /usr/bin/awk '/Name :/ && ! /loginwindow/ && ! /root/ && ! /_mbsetupuser/ { print $3 }' | /usr/bin/awk -F '@' '{print $1}')/Library/AutoPkg/Cache"
+alias openipswmacos="open https://ipsw.me/$(/usr/sbin/system_profiler SPHardwareDataType | grep "Model Identifier" | awk '{print $3}')"
+alias openmsaaderrors="open https://login.microsoftonline.com/error"
+alias openappleicons="open /System/Library/Components/CoreAudio.component/Contents/Resources"
+alias opencoreicons="open /System/Library/CoreServices/CoreTypes.bundle/Contents/Resources"
 alias acd="/opt/cisco/anyconnect/bin/vpn disconnect"
 alias acs="/opt/cisco/anyconnect/bin/vpn state"
 
 # github
 alias github="open https://github.com/"
-alias gitba="git branch -lav"
-alias gitb="git branch --show-current"
-alias gitsm="git switch main"
-alias gits="git status --untracked-files"
 # clears away anything not in version control and resets your branch modifications. 
 alias gitfresh='git reset --hard HEAD && git clean -dffx -e ".venv" -e ".vscode" -e ".env" -e "node_modules"'
 
 # uv
 alias uvp="uv run --with poethepoet poe"
+alias lit="uv run --with requests /Users/captam3rica/dev/internal-sys-eng-scripts/library_items_tool/lit.py"
+alias aaqa="uv run --with jira /Users/captam3rica/dev/internal-sys-eng-scripts/khaan_helpers/aaqa.py"
 
 bindkey -e
 
@@ -189,3 +188,5 @@ source $(dirname $(gem which colorls))/tab_complete.sh
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
+
+export PATH="$HOME/.local/bin:$PATH"
