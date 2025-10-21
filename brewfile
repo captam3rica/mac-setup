@@ -37,6 +37,7 @@ brew "gnupg"
 brew "openssl@3"
 brew "xz"
 brew "zlib"
+brew "bat"
 
 # apps
 cask "font-hack-nerd-font"
