@@ -533,7 +533,6 @@ uv tool install scriv
 uv tool install requests
 uv tool install beautysh
 uv tool install shellcheck-py
-uv tool install isort
 uv tool install numpy
 uv tool install pandas
 
