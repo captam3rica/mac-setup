@@ -1,8 +1,12 @@
-
 font-family = "JetBrains Mono"
+
 # font-family = "Fira Code"
+
 font-size = 13
-window-padding-x = 4
+window-padding-x = 1
+window-height = 56
+window-width = 238
+split-divider-color = #BD93F9
 
 # theme = Dracula
 
