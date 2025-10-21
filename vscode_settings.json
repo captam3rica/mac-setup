@@ -1,0 +1,125 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        }
+    },
+    "[shellscript]": {
+        "editor.defaultFormatter": "foxundermoon.shell-format"
+    },
+    "autoDocstring.startOnNewLine": true,
+    "css.format.spaceAroundSelectorSeparator": true,
+    "editor.comments.ignoreEmptyLines": false,
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.formatOnPaste": true,
+    "editor.minimap.enabled": false,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.renderLineHighlight": "all",
+    "editor.rulers": [
+        119
+    ],
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 119,
+    "python.defaultInterpreterPath": "/Users/captam3rica/.pyenv/shims/python",
+    "python.autoComplete.extraPaths": [],
+    "scm.diffDecorationsGutterPattern": {
+        "modified": false
+    },
+    "scm.diffDecorationsGutterWidth": 4,
+    "security.workspace.trust.untrustedFiles": "open",
+    "explorer.confirmDelete": false,
+    "editor.suggest.insertMode": "replace",
+    "shellcheck.ignorePatterns": {
+        "**/*.zsh": false
+    },
+    "shellcheck.customArgs": [
+        "--shell=bash",
+        "--external-sources",
+        "--severity=warning",
+        "--exclude=SC2046,SC2053,SC2068,SC2179,SC2181,SC2199,SC2207,SC2229,SC2296"
+    ],
+    "workbench.preferredDarkColorTheme": "Dracula Pro",
+    "workbench.preferredLightColorTheme": "Dracula Pro",
+    "githubIssues.queries": [
+        {},
+        {
+            "label": "My Issues",
+            "query": "default"
+        },
+        {
+            "label": "Created Issues",
+            "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+        },
+        {
+            "label": "Recent Issues",
+            "query": "state:open repo:${owner}/${repository} sort:updated-desc"
+        }
+    ],
+    "editor.fontVariations": false,
+    "editor.accessibilitySupport": "off",
+    "yaml.maxItemsComputed": 50000,
+    "openapi.dataDictionaryPreAuditFix": "always",
+    "githubPullRequests.pullBranch": "never",
+    "ruff.lineLength": 119,
+    "workbench.colorTheme": "Dracula Pro",
+    "workbench.iconTheme": "bearded-icons",
+    "editor.codeActionsOnSave": {},
+    "[xml]": {
+        "editor.defaultFormatter": "redhat.vscode-xml"
+    },
+    "cSpell.ignoreWords": [
+        "autopkglib"
+    ],
+    "cursor.cpp.disabledLanguages": [
+        "plaintext",
+        "markdown",
+        "scminput"
+    ],
+    "yaml.format.printWidth": 119,
+    "html.format.wrapLineLength": 119,
+    "explorer.confirmDragAndDrop": false,
+    "editor.fontSize": 11,
+    "scm.inputFontSize": 11,
+    "terminal.integrated.fontSize": 11,
+    "markdown.preview.fontSize": 11,
+    "[markdown]": {
+        "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+    },
+    "[dockercompose]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "advanced",
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": true
+        },
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "[github-actions-workflow]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "git.blame.editorDecoration.enabled": true,
+    "flake8.args": [
+        "--max-line-length=120",
+        "--disable=E266"
+    ],
+    "coderabbit.autoReviewMode": "auto",
+    "vscode-neovim.compositeKeys": {
+        "jk": {
+            "command": "vscode-neovim.escape",
+        },
+    },
+    "vscode-neovim.neovimInitVimPaths.darwin": "/Users/captam3rica/.config/nvim/init.lua",
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "workbench.preferredHighContrastColorTheme": "Dracula Pro",
+    "workbench.settings.applyToAllProfiles": [
+        
+    ]
+}
