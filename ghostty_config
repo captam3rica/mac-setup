@@ -1,15 +1,32 @@
+# configure ghostty to show git branch/worktree in tab labels
+shell-integration-features = no-title
+shell-integration = zsh  
+
+# integration tabs into title bar
+macos-titlebar-style = tabs
+bell-features = title
+macos-icon = retro
+
+# how much to keep in the terminal buffer
+scrollback-limit = 100000000
+
 font-family = "JetBrains Mono"
-
-# font-family = "Fira Code"
-
 font-size = 13
-window-padding-x = 1
+
+# windows
+window-padding-x = 4
+window-padding-y = 4
+window-padding-balance = true
+window-padding-color = background
 window-height = 56
 window-width = 238
-split-divider-color = #BD93F9
+window-vsync = true
+window-inherit-font-size = true
+window-subtitle = working-directory
+window-save-state = always
+confirm-close-surface = false
 
 # theme = Dracula
-
 palette = 0=#22212C
 palette = 1=#FF9580
 palette = 2=#8AFF80
@@ -28,9 +45,38 @@ palette = 14=#99FFEE
 palette = 15=#FFFFFF
 background = #22212C
 foreground = #F8F8F2
+cursor-color = #7970A9
+cursor-text = #7970A9
+selection-background = #B87EFF
+split-divider-color = #BD93F9
+selection-foreground = #22212C
+
+# cursor settings
+shell-integration-features = no-cursor
 cursor-style = block
+cursor-style-blink = true
 cursor-color = #FF80BF
 cursor-text = #7970A9
-selection-background = #9680FF
-selection-foreground = #F8F8F2
-shell-integration-features = no-cursor
+
+# keyboard bindings
+# clear the window like ctrl + l
+keybind = cmd+k=text:\x0c
+
+# remaps cmd+h to cmd+p for hiding the Ghostty window.
+# defaults write com.mitchellh.ghostty NSUserKeyEquivalents -dict-add "Hide Ghostty" "@$h" && killall cfprefsd 2>/dev/null || true
+keybind = cmd+h=goto_split:previous
+keybind = cmd+l=goto_split:next
+keybind = shift+cmd+h=previous_tab
+keybind = shift+cmd+l=next_tab
+
+# Copy scrollback temp filepath to clipboard
+keybind = cmd+shift+j=write_scrollback_file:copy
+
+# Run nvim on that filepath (macOS clipboard) and press Enter
+keybind = cmd+shift+k=text:nvim "$(pbpaste)"\r
+
+# Make font size changes apply to all surfaces
+keybind = all:cmd+equal=increase_font_size:1
+keybind = all:cmd+minus=decrease_font_size:1
+keybind = all:cmd+zero=reset_font_size
+
