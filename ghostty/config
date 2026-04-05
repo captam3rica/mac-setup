@@ -79,4 +79,3 @@ keybind = cmd+shift+k=text:nvim "$(pbpaste)"\r
 keybind = all:cmd+equal=increase_font_size:1
 keybind = all:cmd+minus=decrease_font_size:1
 keybind = all:cmd+zero=reset_font_size
-

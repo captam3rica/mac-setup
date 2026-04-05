@@ -1,0 +1,58 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(ls)",
+      "Shell(cd)",
+      "Shell(git status)",
+      "Shell(git branch)"
+    ],
+    "deny": []
+  },
+  "version": 1,
+  "editor": {
+    "vimMode": true
+  },
+  "model": {
+    "modelId": "composer-1.5",
+    "displayModelId": "composer-1.5",
+    "displayName": "Composer 1.5",
+    "displayNameShort": "Composer 1.5",
+    "aliases": [],
+    "maxMode": true
+  },
+  "hasChangedDefaultModel": true,
+  "maxMode": true,
+  "modelParameters": {
+    "claude-4.6-opus-high-thinking": [],
+    "composer-1.5": []
+  },
+  "selectedModel": {
+    "modelId": "composer-1.5",
+    "parameters": []
+  },
+  "privacyCache": {
+    "ghostMode": true,
+    "privacyMode": 2,
+    "updatedAt": 1775074048184
+  },
+  "authInfo": {
+    "email": "",
+    "displayName": "Matt Wilson",
+    "teamId": 0000000,
+    "teamName": "",
+    "userId": 0000000,
+    "authId": ""
+  },
+  "network": {
+    "useHttp1ForAgent": false
+  },
+  "approvalMode": "allowlist",
+  "sandbox": {
+    "mode": "disabled",
+    "networkAccess": "user_config_with_defaults"
+  },
+  "attribution": {
+    "attributeCommitsToAgent": true,
+    "attributePRsToAgent": true
+  }
+}

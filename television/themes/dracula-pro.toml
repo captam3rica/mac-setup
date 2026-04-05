@@ -1,0 +1,29 @@
+# Dracula Pro theme for Television
+
+# general
+background = '#22212C'
+border_fg = '#7970A9'
+text_fg = '#F8F8F2'
+dimmed_text_fg = '#7970A9'
+
+# input
+input_text_fg = '#FF80BF'
+result_count_fg = '#FF80BF'
+
+# results
+result_name_fg = '#80FFEA'
+result_line_number_fg = '#FFFF80'
+result_value_fg = '#9580FF'
+selection_fg = '#F8F8F2'
+selection_bg = '#454158'
+match_fg = '#FF9580'
+
+# preview
+preview_title_fg = '#FFCA80'
+
+# modes
+channel_mode_fg = '#22212C'
+channel_mode_bg = '#9580FF'
+remote_control_mode_fg = '#22212C'
+remote_control_mode_bg = '#8AFF80'
+send_to_channel_mode_fg = '#80FFEA'

@@ -1,5 +1,5 @@
 [user]
-	email = thecaptam3rica@gmail.com
+	email = matt@bravewaffles.io
 	name = captam3rica
 [credential "https://github.com"]
 	username = captam3rica
@@ -8,11 +8,9 @@
 	editor = /opt/homebrew/bin/nvim
 [core]
 	editor = /opt/homebrew/bin/nvim
-# [commit]
-# 	template = /Users/mwilson/.stCommitMsg
+[commit]
+	template = ~/.claude/commit-template.txt
 [credential]
 	helper = cache
 [color]
 	ui = auto
-[scriv "create"]
-	edit = true

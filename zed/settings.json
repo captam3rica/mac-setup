@@ -1,0 +1,48 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "vim": {
+    "toggle_relative_line_numbers": true
+  },
+  "agent": {
+    "model_parameters": [],
+    "use_modifier_to_send": false
+  },
+  "disable_ai": false,
+  "icon_theme": "Zed (Default)",
+  "vim_mode": true,
+  "terminal": {
+    "font_size": 11.0
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": true
+    }
+  },
+  "multi_cursor_modifier": "cmd_or_ctrl",
+  "minimap": {
+    "show": "never"
+  },
+  "current_line_highlight": "all",
+  "buffer_font_family": "JetBrains Mono",
+  "auto_indent_on_paste": true,
+  "wrap_guides": [
+    119
+  ],
+  "preferred_line_length": 119,
+  "soft_wrap": "prefer_line",
+  "base_keymap": "Atom",
+  "ui_font_size": 16,
+  "buffer_font_size": 11.0,
+  "theme": {
+    "mode": "system",
+    "light": "Dracula Pro",
+    "dark": "Dracula Pro"
+  },
+}

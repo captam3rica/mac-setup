@@ -1,0 +1,49 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+SESSION="dev"
+
+# If the session already exists, remove it so the script is idempotent.
+if tmux has-session -t "${SESSION}" 2>/dev/null; then
+    tmux kill-session -t "${SESSION}"
+fi
+
+make_three_panes_left_split() {
+    # Target can be "dev:baart" etc.
+    local target="$1"
+
+    # Layout:
+    #   1) Split the window into left/right (vertical split)
+    #   2) Split the left pane into top/bottom (horizontal split)
+    tmux select-window -t "${target}"
+
+    # Create right pane
+    tmux split-window -h -t "${target}" -c "#{pane_current_path}"
+
+    # Split left pane into top/bottom
+    tmux select-pane -t "${target}.0"
+    tmux split-window -v -t "${target}.0" -c "#{pane_current_path}"
+
+    # Optional: focus top-left
+    tmux select-pane -t "${target}.0"
+}
+
+# First window is created with the session
+tmux new-session -d -s "${SESSION}" -n "baart" -c "$HOME/dev/internal-sys-eng-scripts/baart"
+make_three_panes_left_split "${SESSION}:baart"
+
+tmux new-window -t "${SESSION}" -n "autopkgrecipes" -c "$HOME/dev/autopkgrecipes"
+make_three_panes_left_split "${SESSION}:autopkgrecipes"
+
+tmux new-window -t "${SESSION}" -n "khaan" -c "$HOME/dev/khaan"
+make_three_panes_left_split "${SESSION}:khaan"
+
+tmux new-window -t "${SESSION}" -n "sys-eng-skills" -c "$HOME/dev/internal-sys-eng-skills"
+make_three_panes_left_split "${SESSION}:sys-eng-skills"
+
+tmux new-window -t "${SESSION}" -n "sys-scripts" -c "$HOME/dev/internal-sys-eng-scripts"
+make_three_panes_left_split "${SESSION}:sys-scripts"
+
+# Start on baart and attach
+tmux select-window -t "${SESSION}:baart"
+tmux attach-session -t "${SESSION}"
