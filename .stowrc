@@ -1,0 +1,5 @@
+--verbose
+--ignore=.*\.DS_Store$
+--ignore=.*\.swp$
+--ignore=.*\.zshenv$
+--ignore=.*\.stowrc$
