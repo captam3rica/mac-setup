@@ -245,6 +245,7 @@ alias start-dev="\${HOME}/.config/zsh/functions/start-dev"
 
 # worktrunk
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+alias wts="wt switch"
 
 # nvm
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm

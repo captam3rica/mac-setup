@@ -193,7 +193,7 @@ function xcode_cli_tools() {
 function install_homebrew() {
     logging "info" "use the kandji script ..."
     logging "info" "https://github.com/kandji-inc/support/blob/main/Scripts/InstallHomebrew.zsh"
-    zsh "$HERE/homebrew.zsh"
+    zsh "$HERE/scripts/homebrew.zsh"
 }
 
 #######################################################################################
