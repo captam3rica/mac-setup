@@ -21,7 +21,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(colored-man-pages git zsh-autosuggestions)
+plugins=(colored-man-pages git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -166,21 +166,16 @@ ZSH_HIGHLIGHT_STYLES[cursor]='standout'
 
 ##############################################################################
 
-if [[ -d /opt/homebrew ]]; then 
-    # shellcheck source=/dev/null
-    source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    # shellcheck source=/dev/null
-    source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
-else
-    # shellcheck source=/dev/null
-    source /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme
-    # shellcheck source=/dev/null
-    source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+# shellcheck source=/dev/null
+source "$(brew --prefix)"/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# shellcheck source=/dev/null
+source "$(brew --prefix)"/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# shellcheck source=/dev/null
+source "$(brew --prefix)"/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # colorls settings
 # /opt/homebrew/opt/ruby/bin/ruby
-colorls_gem=$(/opt/homebrew/opt/ruby/bin/gem which colorls)
+colorls_gem=$("$(brew --prefix)"/opt/ruby/bin/gem which colorls)
 # shellcheck source=/dev/null
 source "${colorls_gem:h}/tab_complete.sh"
 
@@ -246,6 +241,9 @@ alias start-dev="\${HOME}/.config/zsh/functions/start-dev"
 # worktrunk
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
 alias wts="wt switch"
+alias wtc="wt step commit"
+alias wtca="wt step commit --stage all"
+alias wtl="wt list"
 
 # nvm
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
