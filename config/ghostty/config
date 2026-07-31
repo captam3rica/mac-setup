@@ -1,6 +1,6 @@
 # configure ghostty to show git branch/worktree in tab labels
-shell-integration-features = no-title
-shell-integration = zsh  
+# shell-integration-features = no-title
+# shell-integration = zsh  
 
 # integration tabs into title bar
 macos-titlebar-style = tabs
@@ -11,7 +11,9 @@ macos-icon = retro
 scrollback-limit = 100000000
 
 font-family = "JetBrains Mono"
+# font-family = "Fira Code"
 font-size = 13
+font-feature = -liga
 
 # windows
 window-padding-x = 4
@@ -43,7 +45,7 @@ palette = 12=#AA99FF
 palette = 13=#FF99CC
 palette = 14=#99FFEE
 palette = 15=#FFFFFF
-background = #22212C
+background = #282A36
 foreground = #F8F8F2
 cursor-color = #7970A9
 cursor-text = #7970A9
@@ -62,20 +64,77 @@ cursor-text = #7970A9
 # clear the window like ctrl + l
 keybind = cmd+k=text:\x0c
 
+# # Unbind Vim/Emacs Movement Keys
+keybind = super+arrow_left=unbind
+keybind = super+arrow_right=unbind
+keybind = alt+arrow_left=unbind
+keybind = alt+arrow_right=unbind
+
+# Disable Jump to Prompt
+# keybind = super+arrow_down=unbind
+# keybind = super+arrow_up=unbind
+# keybind = super+shift+arrow_down=unbind
+# keybind = super+shift+arrow_up=unbind
+
+# Unbind close surface
+# keybind = super+w=unbind
+
+# Remove Tab Keybinds
+keybind = super+t=unbind
+keybind = ctrl+shift+tab=unbind
+keybind = ctrl+tab=unbind
+keybind = super+digit_1=unbind
+keybind = super+digit_2=unbind
+keybind = super+digit_3=unbind
+keybind = super+digit_4=unbind
+keybind = super+digit_5=unbind
+keybind = super+digit_6=unbind
+keybind = super+digit_7=unbind
+keybind = super+digit_8=unbind
+keybind = super+1=unbind
+keybind = super+2=unbind
+keybind = super+3=unbind
+keybind = super+4=unbind
+keybind = super+5=unbind
+keybind = super+6=unbind
+keybind = super+7=unbind
+keybind = super+8=unbind
+keybind = super+9=unbind
+keybind = super+alt+w=unbind
+keybind = super+shift+[=unbind
+keybind = super+shift+]=unbind
+
+# Remove Split Keybinds
+keybind = super+d=unbind
+keybind = super+ctrl+arrow_right=unbind
+keybind = super+ctrl+arrow_left=unbind
+keybind = super+ctrl+arrow_down=unbind
+keybind = super+ctrl+arrow_up=unbind
+keybind = super+alt+arrow_down=unbind
+keybind = super+ctrl+==unbind
+keybind = super+alt+arrow_up=unbind
+keybind = super+]=unbind
+keybind = super+shift+enter=unbind
+keybind = super+[=unbind
+keybind = super+shift+d=unbind
+keybind = super+alt+arrow_right=unbind
+keybind = super+alt+arrow_left=unbind
+
 # remaps cmd+h to cmd+p for hiding the Ghostty window.
 # defaults write com.mitchellh.ghostty NSUserKeyEquivalents -dict-add "Hide Ghostty" "@$h" && killall cfprefsd 2>/dev/null || true
-keybind = cmd+h=goto_split:previous
-keybind = cmd+l=goto_split:next
-keybind = shift+cmd+h=previous_tab
-keybind = shift+cmd+l=next_tab
+# keybind = cmd+h=goto_split:previous
+# keybind = cmd+l=goto_split:next
+# keybind = shift+cmd+h=previous_tab
+# keybind = shift+cmd+l=next_tab
 
 # Copy scrollback temp filepath to clipboard
-keybind = cmd+shift+j=write_scrollback_file:copy
+# keybind = cmd+shift+j=write_scrollback_file:copy
 
 # Run nvim on that filepath (macOS clipboard) and press Enter
-keybind = cmd+shift+k=text:nvim "$(pbpaste)"\r
+# keybind = cmd+shift+k=text:nvim "$(pbpaste)"\r
 
+# There may be a bug here where pressing cmd + or - repeatedly causes Ghosty to crash
 # Make font size changes apply to all surfaces
-keybind = all:cmd+equal=increase_font_size:1
-keybind = all:cmd+minus=decrease_font_size:1
-keybind = all:cmd+zero=reset_font_size
+# keybind = all:cmd+equal=increase_font_size:1
+# keybind = all:cmd+minus=decrease_font_size:1
+# keybind = all:cmd+zero=reset_font_size
