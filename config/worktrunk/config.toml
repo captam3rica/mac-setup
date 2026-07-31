@@ -3,11 +3,11 @@
 worktree-path = ".worktrees/{{ branch | sanitize }}"
 
 [commit]
-stage = "tracked"      # What to stage before commit: "all", "tracked", or "none"
+stage = "tracked" # What to stage before commit: "all", "tracked", or "none"
 
 [commit.generation]
 # command = "CLAUDECODE= MAX_THINKING_TOKENS=0 claude -p --no-session-persistence --model=sonnet --tools='' --disable-slash-commands --setting-sources='' --system-prompt=''"
-command = "opencode run --agent opencode/glm-5.0 --variant fast"
+command = "opencode run --agent opencode/big-pickle --variant fast"
 
 template = """
 Write a commit message for the staged changes below.

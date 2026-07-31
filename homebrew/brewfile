@@ -1,5 +1,7 @@
+tap agavra/tap
 tap "cirruslabs/cli"
 tap "parera10/csshx"
+
 brew "xz"
 brew "openssl@3"
 brew "aria2"
@@ -40,6 +42,7 @@ brew "television"
 brew "tesseract"
 brew "tmux"
 brew "tree"
+brew tuicr
 brew "up"
 brew "uv"
 brew "wireshark"
