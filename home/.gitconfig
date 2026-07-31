@@ -14,3 +14,5 @@
 	helper = cache
 [color]
 	ui = auto
+[coderabbit]
+	machineId = cli/43dc751bbafd4a4c8b8abc822dbbcb74

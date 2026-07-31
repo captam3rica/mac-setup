@@ -2,55 +2,113 @@
   "permissions": {
     "allow": [
       "Shell(ls)",
-      "Shell(cd)",
-      "Shell(git status)",
-      "Shell(git branch)"
+      "Shell(find)",
+      "Shell(head)",
+      "Shell(git log)",
+      "Shell(git branch)",
+      "Shell(rg)",
+      "Shell(true)",
+      "Shell(mktemp)",
+      "Shell(echo)"
     ],
     "deny": []
   },
   "version": 1,
   "editor": {
-    "vimMode": true
+    "vimMode": false
   },
+  "display": {
+    "showLineNumbers": false,
+    "showThinkingBlocks": true,
+    "showStatusIndicators": false,
+    "showStatusLineRunningTime": false,
+    "zenMode": true
+  },
+  "notifications": true,
+  "hints": true,
+  "modelSlashCommands": true,
+  "rewind": true,
   "model": {
-    "modelId": "composer-1.5",
-    "displayModelId": "composer-1.5",
-    "displayName": "Composer 1.5",
-    "displayNameShort": "Composer 1.5",
+    "modelId": "grok-4.5",
+    "displayModelId": "grok-4.5",
+    "displayName": "Cursor Grok 4.5 High Fast",
+    "displayNameShort": "Cursor Grok 4.5 High Fast",
     "aliases": [],
-    "maxMode": true
+    "maxMode": false
   },
   "hasChangedDefaultModel": true,
-  "maxMode": true,
   "modelParameters": {
-    "claude-4.6-opus-high-thinking": [],
-    "composer-1.5": []
+    "default": [],
+    "grok-4.5": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "true"
+      }
+    ]
   },
   "selectedModel": {
-    "modelId": "composer-1.5",
-    "parameters": []
+    "modelId": "grok-4.5",
+    "parameters": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "true"
+      }
+    ]
   },
+  "modelSelectionHistory": [
+    "grok-4.5",
+    "default"
+  ],
   "privacyCache": {
     "ghostMode": true,
     "privacyMode": 2,
-    "updatedAt": 1775074048184
+    "updatedAt": 1785517462215
+  },
+  "autoReviewAvailabilityCache": {
+    "backendUrl": "https://api2.cursor.sh",
+    "authCacheKey": "auth:auth0|user_01JXJBYH5RB0PXKSEWYK5CDJVN",
+    "teamId": 3578799,
+    "available": true,
+    "updatedAt": 1785513715798
+  },
+  "serverConfigCache": {
+    "backendUrl": "https://api2.cursor.sh",
+    "authCacheKey": "auth:auth0|user_01JXJBYH5RB0PXKSEWYK5CDJVN",
+    "teamId": 3578799,
+    "agentUrlConfig": {
+      "agentUrl": "https://agentn.us.api5.cursor.sh",
+      "agentnUrl": "https://agentn.us.api5.cursor.sh"
+    },
+    "cliSandboxDefaultEnabled": false,
+    "serverHttp2Config": 0,
+    "updatedAt": 1785514495583
   },
   "authInfo": {
-    "email": "",
+    "email": "matt.wilson@kandji.io",
     "displayName": "Matt Wilson",
-    "teamId": 0000000,
-    "teamName": "",
-    "userId": 0000000,
-    "authId": ""
+    "teamId": 3578799,
+    "teamName": "Iru",
+    "userId": 215955254,
+    "authId": "auth0|user_01JXJBYH5RB0PXKSEWYK5CDJVN"
   },
   "network": {
     "useHttp1ForAgent": false
   },
   "approvalMode": "allowlist",
+  "autoAcceptWebSearch": false,
   "sandbox": {
     "mode": "disabled",
     "networkAccess": "user_config_with_defaults"
   },
+  "runEverythingSettingsPromptStreak": 0,
   "attribution": {
     "attributeCommitsToAgent": true,
     "attributePRsToAgent": true

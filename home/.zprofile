@@ -12,7 +12,19 @@ function pkg_expand() {
 
     }
 
-function openbranch() {
-    # Gets the current git repo url and and current branch then opens to that branch with favorite browser.
-    open $(git config --get remote.origin.url | sed 's/.git$//')/tree/$(git branch --show-current)
+
+function awsauth() {
+    # auth to kandji aws
+
+    if ! command -v aws >/dev/null 2>&1; then
+        echo "ERROR: aws not installed."
+        echo "ERROR: install via brew or other method then try again."
+        return 1
+    fi
+
+    if aws sso login --profile default; then
+        echo "successful auth!"
+    else
+        echo "check your config"
+    fi
 }

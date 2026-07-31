@@ -64,17 +64,8 @@ cursor-text = #7970A9
 # clear the window like ctrl + l
 keybind = cmd+k=text:\x0c
 
-# # Unbind Vim/Emacs Movement Keys
-keybind = super+arrow_left=unbind
-keybind = super+arrow_right=unbind
-keybind = alt+arrow_left=unbind
-keybind = alt+arrow_right=unbind
-
-# Disable Jump to Prompt
-# keybind = super+arrow_down=unbind
-# keybind = super+arrow_up=unbind
-# keybind = super+shift+arrow_down=unbind
-# keybind = super+shift+arrow_up=unbind
+# Unbind full screen
+keybind = cmd+enter=unbind
 
 # Unbind close surface
 # keybind = super+w=unbind

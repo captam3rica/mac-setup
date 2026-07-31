@@ -72,6 +72,8 @@ echo ""
 
 fpath+=~/.config/zsh/functions/; autoload -Uz compinit; compinit
 
+autoload -Uz openbranch unsignpkg 
+
 ####################################################################################
 # Dracula Theme (for zsh-syntax-highlighting)
 #
@@ -210,15 +212,22 @@ alias ls="colorls --dark --git-status"
 alias ll="colorls --dark -p -la --git-status --group-directories-first" # long list
 alias lst="colorls --dark -p --tree --git-status --group-directories-first" # tree view
 alias lsm="colorls --dark -plat --git-status --group-directories-first" # sort by modtime
+alias lschflags="/bin/ls -lOG"
+
+# grep with colors
+alias grep="grep --color"
+
+# take out the trash
+alias emptytrash="osascript -e 'tell application \"Finder\" to empty the trash'"
+
+# autopkg
+alias gotoautopkgcache="cd \${HOME}/Library/AutoPkg/Cache"
+alias openautopkgcache="open \${HOME}/Library/AutoPkg/Cache"
 
 # misc
-alias emptytrash="osascript -e 'tell application \"Finder\" to empty the trash'"
-alias grep="grep --color"
 alias gotoicloud="cd \${HOME}/Library/Mobile Documents/com~apple~CloudDocs"
 alias gotoipsw="cd ~/Library/Group\ Containers/K36BKF7T3D.group.com.apple.configurator/Library/Caches/Firmware/"
 alias gotogitrepos="cd ~/Google\ Drive/My Drive/dev"
-alias gotoautopkgcache="cd \${HOME}/Library/AutoPkg/Cache"
-alias openautopkgcache="open \${HOME}/Library/AutoPkg/Cache"
 alias openipswmacos="open https://ipsw.me/\${HOME}"
 alias openmsaaderrors="open https://login.microsoftonline.com/error"
 alias openappleicons="open /System/Library/Components/CoreAudio.component/Contents/Resources"
@@ -230,9 +239,11 @@ alias github="open https://github.com/"
 alias gitfresh='git reset --hard HEAD && git clean -dffx -e ".venv" -e ".vscode" -e ".env" -e "node_modules"'
 alias gsc='git switch --create'
 
-
 # uv
 alias uvp="uv run --with poethepoet poe"
+alias aaadderall="uv run \${HOME}/dev/internal-sys-eng-scripts/auto_apps_bootstrap/aaadderall.py"
+alias baart="uv run --project \${HOME}/dev/internal-sys-eng-scripts/baart/src/baart baart"
+alias lit="uv run \${HOME}/dev/internal-sys-eng-scripts/library_items_tool/lit.py"
 bindkey -e
 
 # tmux
@@ -244,6 +255,9 @@ alias wts="wt switch"
 alias wtc="wt step commit"
 alias wtca="wt step commit --stage all"
 alias wtl="wt list"
+
+alias claudeusage='npx ccusage@latest claude daily'
+alias getclaude='if claude update | grep -q "up to date"; then echo "Claude up to date"; else curl -fsSL https://claude.ai/install.sh | bash; fi'
 
 # nvm
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
